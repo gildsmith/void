@@ -11,8 +11,7 @@ Where traditional systems grow rigid and fragile over time, Gildsmith emphasises
 - Simple, maintainable domain logic
 - First-class testing and upgradeability
 
-## \>void
-## Preface to this repo
+## Preface to this repository
 
 Void is the official Gildsmith monorepo used for core development, package
 creation, and ecosystem maintenance. provides a ready-to-use Laravel environment
