@@ -1,0 +1,35 @@
+{
+    "name": "gildsmith/support",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Gildsmith\\Support\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mateusz Chmielewski",
+            "email": "hello@itsmattch.com"
+        }
+    ],
+    "require-dev": {
+        "laravel/pint": "^1",
+        "orchestra/testbench": "^10"
+    },
+    "require": {
+        "gildsmith/contract": "dev-master",
+        "illuminate/support": "^12",
+        "illuminate/database": "^12"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gildsmith\\Support\\Providers\\AppServiceProvider"
+            ],
+            "aliases": {
+                "Product": "Gildsmith\\Support\\Facades\\Product"
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+providers:
+  #- Laravel\Pennant\PennantServiceProvider
+  #- Laravel\Sanctum\SanctumServiceProvider
+  - Gildsmith\Product\Providers\AppServiceProvider
+
+migrations:
+  - vendor/laravel/pennant/database/migrations
+  - database/migrations
+
+laravel: ./workbench
+
+workbench:
+  start: '/'
+  install: true
+  health: false
+  discovers:
+    web: true
+    api: true
+    commands: true
+    components: false
+    views: false
+  build: [ ]
+  assets: [ ]
+  sync: [ ]
