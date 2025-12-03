@@ -19,5 +19,13 @@ function remote()
 git pull origin $CURRENT_BRANCH
 
 remote anvil git@github.com:gildsmith/anvil.git
+remote contract git@github.com:gildsmith/contract.git
+remote product git@github.com:gildsmith/product.git
+remote skeleton git@github.com:gildsmith/skeleton.git
+remote support git@github.com:gildsmith/support.git
 
 split 'packages/gildsmith/anvil' anvil
+split 'packages/gildsmith/contract' contract
+split 'packages/gildsmith/product' product
+split 'packages/gildsmith/skeleton' skeleton
+split 'packages/gildsmith/support' support
