@@ -2,16 +2,16 @@
 
 namespace Gildsmith\Support\Facades;
 
-use Gildsmith\Contract\Facades\Pricing as PricingFacade;
+use Gildsmith\Contract\Facades\PricingFacadeInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @mixin PricingFacade
+ * @mixin PricingFacadeInterface
  */
 class Pricing extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return PricingFacade::class;
+        return PricingFacadeInterface::class;
     }
 }

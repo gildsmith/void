@@ -2,7 +2,6 @@
 
 namespace Gildsmith\Support\Model\Concerns;
 
-use Gildsmith\Support\Utils\ResolvesInstance;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
 

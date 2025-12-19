@@ -1,19 +1,10 @@
 {
-    "name": "gildsmith/skeleton",
+    "name": "gildsmith/anvil",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Gildsmith\\Skeleton\\": "src/",
-            "Gildsmith\\Skeleton\\Database\\Factories\\": "database/factories/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/",
-            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+            "Gildsmith\\Anvil\\": "src/"
         }
     },
     "authors": [
@@ -24,11 +15,9 @@
     ],
     "require-dev": {
         "illuminate/support": "^12",
-        "illuminate/database": "^12",
-        "gildsmith/support": "dev-master",
-        "gildsmith/contract": "dev-master",
         "laravel/pint": "^1",
-        "pestphp/pest": "*"
+        "pestphp/pest": "*",
+        "orchestra/testbench": "*"
     },
     "config": {
         "allow-plugins": {
@@ -60,7 +49,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Gildsmith\\Skeleton\\Providers\\AppServiceProvider"
+                "Gildsmith\\Anvil\\Providers\\AppServiceProvider"
             ]
         }
     }

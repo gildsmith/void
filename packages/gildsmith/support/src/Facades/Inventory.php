@@ -2,16 +2,16 @@
 
 namespace Gildsmith\Support\Facades;
 
-use Gildsmith\Contract\Facades\Inventory as InventoryFacade;
+use Gildsmith\Contract\Facades\InventoryFacadeInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @mixin InventoryFacade
+ * @mixin InventoryFacadeInterface
  */
 class Inventory extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return InventoryFacade::class;
+        return InventoryFacadeInterface::class;
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Gildsmith\Support\Facades;
 
-use Gildsmith\Contract\Facades\Product as ProductFacade;
+use Gildsmith\Contract\Facades\ProductFacadeInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @mixin ProductFacade
+ * @mixin ProductFacadeInterface
  */
 class Product extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return ProductFacade::class;
+        return ProductFacadeInterface::class;
     }
 }
