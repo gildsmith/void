@@ -11,6 +11,6 @@ class MissingSoftDeletesException extends Exception
     public function __construct(object $model)
     {
         $class = get_class($model);
-        parent::__construct("The model [$class] must use the SoftDeletes trait.");
+        parent::__construct("The model [$class] must use the Illuminate\Database\Eloquent\SoftDeletes trait.");
     }
 }
