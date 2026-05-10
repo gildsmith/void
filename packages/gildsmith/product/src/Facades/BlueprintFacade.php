@@ -7,6 +7,7 @@ namespace Gildsmith\Product\Facades;
 use Gildsmith\Contract\Facades\Product\BlueprintFacadeInterface;
 use Gildsmith\Contract\Product\BlueprintInterface;
 use Gildsmith\Product\Exceptions\MissingSoftDeletesException;
+use Gildsmith\Support\Facades\Traits\ValidatesSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,8 @@ use Illuminate\Support\Collection;
 
 class BlueprintFacade implements BlueprintFacadeInterface
 {
+    use ValidatesSoftDeletes;
+
     /**
      * @return Collection<int, Model&BlueprintInterface>
      *
@@ -21,13 +24,11 @@ class BlueprintFacade implements BlueprintFacadeInterface
      */
     public function all(bool $withTrashed = false): Collection
     {
-        /** @var Builder $builder */
+        /** @var Builder&SoftDeletes $builder */
         $builder = resolve(BlueprintInterface::class);
 
-        $withTrashed && $this->ensureSoftDeletes($builder);
-
         return $withTrashed
-            ? $builder::withTrashed()->get()
+            ? $this->ensureSoftDeletes($builder)->withTrashed()->get()
             : $builder->get();
     }
 
@@ -36,7 +37,7 @@ class BlueprintFacade implements BlueprintFacadeInterface
         /** @var Builder $builder */
         $builder = resolve(BlueprintInterface::class);
 
-        return $builder::create($data);
+        return $builder->create($data);
     }
 
     /**
@@ -44,30 +45,26 @@ class BlueprintFacade implements BlueprintFacadeInterface
      */
     public function delete(string $code, bool $force = false): bool
     {
-        $blueprint = $this->find($code);
-
-        $force && $this->ensureSoftDeletes($blueprint);
+        $model = $this->find($code);
 
         return $force
-            ? (bool) $blueprint->forceDelete()
-            : (bool) $blueprint->delete();
+            ? $this->ensureSoftDeletes($model)->forceDelete()
+            : $model->delete();
     }
 
     /**
-     * @return (Model&BlueprintInterface)|null
+     * @return (Model&BlueprintInterface&SoftDeletes)|null
      *
      * @throws MissingSoftDeletesException
      */
     public function find(string $code, bool $withTrashed = false): ?BlueprintInterface
     {
-        /** @var Builder $builder */
+        /** @var Builder&SoftDeletes $builder */
         $builder = resolve(BlueprintInterface::class);
 
-        $withTrashed && $this->ensureSoftDeletes($builder);
-
         return $withTrashed
-            ? $builder::withTrashed()->where('code', $code)->first()
-            : $builder::where('code', $code)->first();
+            ? $this->ensureSoftDeletes($builder)->withTrashed()->where('code', $code)->first()
+            : $builder->where('code', $code)->first();
     }
 
     /**
@@ -75,12 +72,9 @@ class BlueprintFacade implements BlueprintFacadeInterface
      */
     public function restore(string $code): bool
     {
-        /** @var SoftDeletes $model */
         $model = $this->find($code, true);
 
-        $this->ensureSoftDeletes($model);
-
-        return $model->restore();
+        return $this->ensureSoftDeletes($model)->restore();
     }
 
     /**
@@ -90,12 +84,10 @@ class BlueprintFacade implements BlueprintFacadeInterface
      */
     public function trashed(): Collection
     {
-        /** @var Builder $builder */
+        /** @var Builder&SoftDeletes $builder */
         $builder = resolve(BlueprintInterface::class);
 
-        $this->ensureSoftDeletes($builder);
-
-        return $builder::onlyTrashed()->get();
+        return $this->ensureSoftDeletes($builder)->onlyTrashed()->get();
     }
 
     /**
@@ -103,11 +95,10 @@ class BlueprintFacade implements BlueprintFacadeInterface
      */
     public function update(string $code, array $data): BlueprintInterface
     {
-        $blueprint = $this->find($code, true);
+        $model = $this->find($code, true);
+        $model->update($data);
 
-        $blueprint->update($data);
-
-        return $blueprint->fresh();
+        return $model->fresh();
     }
 
     public function updateOrCreate(string $code, array $data): BlueprintInterface
@@ -115,31 +106,6 @@ class BlueprintFacade implements BlueprintFacadeInterface
         /** @var Builder $builder */
         $builder = resolve(BlueprintInterface::class);
 
-        return $builder::updateOrCreate(['code' => $code], $data);
-    }
-
-    /**
-     * A simple method allowing you to check
-     * whether a class implements SoftDeletes.
-     *
-     * @see SoftDeletes
-     */
-    public function usesSoftDeletes(object|string $model): bool
-    {
-        return in_array(SoftDeletes::class, class_uses_recursive($model));
-    }
-
-    /**
-     * This method makes sure that SoftDeletes
-     * is used by a registered model, as many methods
-     * in the Facade operate on methods it provides.
-     *
-     * @throws MissingSoftDeletesException
-     */
-    protected function ensureSoftDeletes(object $model): void
-    {
-        if (! $this->usesSoftDeletes($model)) {
-            throw new MissingSoftDeletesException($model);
-        }
+        return $builder->updateOrCreate(['code' => $code], $data);
     }
 }
