@@ -18,16 +18,22 @@ function remote()
 
 git pull origin $CURRENT_BRANCH
 
+# packages
 remote anvil git@github.com:gildsmith/anvil.git
 remote contract git@github.com:gildsmith/contract.git
-remote docs git@github.com:gildsmith/docs.git
 remote product git@github.com:gildsmith/product.git
 remote skeleton git@github.com:gildsmith/skeleton.git
 remote support git@github.com:gildsmith/support.git
 
 split 'packages/gildsmith/anvil' anvil
 split 'packages/gildsmith/contract' contract
-split 'docs' docs
 split 'packages/gildsmith/product' product
 split 'packages/gildsmith/skeleton' skeleton
 split 'packages/gildsmith/support' support
+
+# docs
+remote docs-developer git@github.com:gildsmith/docs-developer.git
+remote docs-merchant git@github.com:gildsmith/docs-merchant.git
+
+split 'docs/developer' docs-developer
+split 'docs/merchant' docs-merchant
