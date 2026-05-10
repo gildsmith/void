@@ -33,7 +33,7 @@ trait ValidatesSoftDeletes
      *
      * @phpstan-param Model $model
      *
-     * @phpstan-return Model
+     * @phpstan-return Model&SoftDeletes
      *
      * @throws MissingSoftDeletesException
      */
