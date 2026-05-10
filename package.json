@@ -5,9 +5,12 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "docs:dev": "npm --prefix docs run dev",
-        "docs:build": "npm --prefix docs run build",
-        "docs:preview": "npm --prefix docs run preview"
+        "docs:developer:dev": "npm --prefix docs/developer run dev",
+        "docs:developer:build": "npm --prefix docs/developer run build",
+        "docs:developer:preview": "npm --prefix docs/developer run preview",
+        "docs:merchant:dev": "npm --prefix docs/merchant run dev",
+        "docs:merchant:build": "npm --prefix docs/merchant run build",
+        "docs:merchant:preview": "npm --prefix docs/merchant run preview"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
