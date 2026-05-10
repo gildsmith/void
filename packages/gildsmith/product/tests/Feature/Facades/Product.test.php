@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Exceptions\MissingSoftDeletesException;
 use Gildsmith\Product\Facades\ProductFacade as ProductFacadeConcrete;
+use Gildsmith\Product\Models\Blueprint;
 use Gildsmith\Product\Models\Product;
 use Gildsmith\Support\Facades\Product as ProductFacade;
 use Illuminate\Database\Eloquent\Model;
@@ -55,3 +56,21 @@ describe('all method', function () {
         expect(fn () => ProductFacade::all())->not->toThrow(MissingSoftDeletesException::class);
     });
 });
+
+describe('create method', function () {
+    it('works', function () {
+        $blueprint = Blueprint::factory()->create();
+
+        $result = ProductFacade::create([
+            'code' => fake()->word,
+            'blueprint_id' => $blueprint->id,
+            'name' => 'test',
+        ]);
+    });
+});
+describe('delete method', function () { /* todo */ });
+describe('find method', function () { /* todo */ });
+describe('restore method', function () { /* todo */ });
+describe('trashed method', function () { /* todo */ });
+describe('update method', function () { /* todo */ });
+describe('updateOrCreate method', function () { /* todo */ });
