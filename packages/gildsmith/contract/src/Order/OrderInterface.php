@@ -3,7 +3,6 @@
 namespace Gildsmith\Contract\Order;
 
 use Gildsmith\Contract\Cart\CartInterface;
-use Gildsmith\Contract\Order\StatusInterface;
 use Gildsmith\Contract\Payment\PaymentInterface;
 use Gildsmith\Contract\Shipping\ShippingInterface;
 use Gildsmith\Contract\User\CustomerInterface;

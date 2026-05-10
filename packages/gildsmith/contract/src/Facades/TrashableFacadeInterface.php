@@ -2,7 +2,6 @@
 
 namespace Gildsmith\Contract\Facades;
 
-use Gildsmith\Contract\Product\ProductInterface;
 use Illuminate\Support\Collection;
 
 /**

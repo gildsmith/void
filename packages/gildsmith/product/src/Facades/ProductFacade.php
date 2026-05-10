@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Gildsmith\Product\Facades;
 
-use Gildsmith\Contract\Facades\Product\AttributeFacadeInterface;
-use Gildsmith\Contract\Facades\Product\AttributeValueFacadeInterface;
-use Gildsmith\Contract\Facades\Product\BlueprintFacadeInterface;
-use Gildsmith\Contract\Facades\Product\ProductCollectionFacadeInterface;
-use Gildsmith\Contract\Facades\ProductFacadeInterface;
+use Gildsmith\Contract\Facades\Product\ProductFacadeInterface;
 use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Exceptions\MissingSoftDeletesException;
 use Gildsmith\Support\Facades\Traits\ValidatesSoftDeletes;
@@ -111,25 +107,5 @@ class ProductFacade implements ProductFacadeInterface
         $builder = resolve(ProductInterface::class);
 
         return $builder->updateOrCreate(['code' => $code], $data);
-    }
-
-    public function attribute(): AttributeFacadeInterface
-    {
-        return resolve(AttributeFacadeInterface::class);
-    }
-
-    public function attributeValue(): AttributeValueFacadeInterface
-    {
-        return resolve(AttributeValueFacadeInterface::class);
-    }
-
-    public function blueprint(): BlueprintFacadeInterface
-    {
-        return resolve(BlueprintFacadeInterface::class);
-    }
-
-    public function collection(): ProductCollectionFacadeInterface
-    {
-        return resolve(ProductCollectionFacadeInterface::class);
     }
 }

@@ -15,6 +15,12 @@
     ],
     "require-dev": {
         "illuminate/support": "^12",
-        "laravel/pint": "^1"
+        "laravel/pint": "^1",
+        "pestphp/pest": "^3"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

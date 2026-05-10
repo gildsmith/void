@@ -10,6 +10,4 @@ use Gildsmith\Contract\Product\ProductCollectionInterface;
  *
  * @extends TrashableFacadeInterface<ProductCollectionInterface>
  */
-interface ProductCollectionFacadeInterface extends TrashableFacadeInterface
-{
-}
+interface ProductCollectionFacadeInterface extends TrashableFacadeInterface {}

@@ -10,6 +10,4 @@ use Gildsmith\Contract\Product\AttributeValueInterface;
  *
  * @extends TrashableFacadeInterface<AttributeValueInterface>
  */
-interface AttributeValueFacadeInterface extends TrashableFacadeInterface
-{
-}
+interface AttributeValueFacadeInterface extends TrashableFacadeInterface {}
