@@ -21,13 +21,13 @@ class AttributeFacade implements AttributeFacadeInterface
      */
     public function all(bool $withTrashed = false): Collection
     {
-        /** @var Builder $builder */
+        /** @var Builder&SoftDeletes $builder */
         $builder = resolve(AttributeInterface::class);
 
         $withTrashed && $this->ensureSoftDeletes($builder);
 
         return $withTrashed
-            ? $builder::withTrashed()->get()
+            ? $builder->withTrashed()->get()
             : $builder->get();
     }
 
@@ -36,7 +36,7 @@ class AttributeFacade implements AttributeFacadeInterface
         /** @var Builder $builder */
         $builder = resolve(AttributeInterface::class);
 
-        return $builder::create($data);
+        return $builder->create($data);
     }
 
     /**
@@ -60,14 +60,14 @@ class AttributeFacade implements AttributeFacadeInterface
      */
     public function find(string $code, bool $withTrashed = false): ?AttributeInterface
     {
-        /** @var Builder $builder */
+        /** @var Builder&SoftDeletes $builder */
         $builder = resolve(AttributeInterface::class);
 
         $withTrashed && $this->ensureSoftDeletes($builder);
 
         return $withTrashed
-            ? $builder::withTrashed()->where('code', $code)->first()
-            : $builder::where('code', $code)->first();
+            ? $builder->withTrashed()->where('code', $code)->first()
+            : $builder->where('code', $code)->first();
     }
 
     /**
@@ -90,12 +90,12 @@ class AttributeFacade implements AttributeFacadeInterface
      */
     public function trashed(): Collection
     {
-        /** @var Builder $builder */
+        /** @var Builder&SoftDeletes $builder */
         $builder = resolve(AttributeInterface::class);
 
         $this->ensureSoftDeletes($builder);
 
-        return $builder::onlyTrashed()->get();
+        return $builder->onlyTrashed()->get();
     }
 
     /**
@@ -115,7 +115,7 @@ class AttributeFacade implements AttributeFacadeInterface
         /** @var Builder $builder */
         $builder = resolve(AttributeInterface::class);
 
-        return $builder::updateOrCreate(['code' => $code], $data);
+        return $builder->updateOrCreate(['code' => $code], $data);
     }
 
     /**

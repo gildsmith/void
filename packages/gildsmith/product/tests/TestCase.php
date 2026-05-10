@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Gildsmith\Contract\Facades\ProductFacadeInterface;
+use Gildsmith\Contract\Facades\Product\ProductFacadeInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\WithWorkbench;

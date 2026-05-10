@@ -8,7 +8,7 @@ use Gildsmith\Contract\Facades\Product\AttributeFacadeInterface;
 use Gildsmith\Contract\Facades\Product\AttributeValueFacadeInterface;
 use Gildsmith\Contract\Facades\Product\BlueprintFacadeInterface;
 use Gildsmith\Contract\Facades\Product\ProductCollectionFacadeInterface;
-use Gildsmith\Contract\Facades\ProductFacadeInterface;
+use Gildsmith\Contract\Facades\Product\ProductFacadeInterface;
 use Gildsmith\Contract\Product\AttributeInterface;
 use Gildsmith\Contract\Product\AttributeValueInterface;
 use Gildsmith\Contract\Product\BlueprintInterface;

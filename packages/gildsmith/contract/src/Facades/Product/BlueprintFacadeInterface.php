@@ -10,6 +10,4 @@ use Gildsmith\Contract\Product\BlueprintInterface;
  *
  * @extends TrashableFacadeInterface<BlueprintInterface>
  */
-interface BlueprintFacadeInterface extends TrashableFacadeInterface
-{
-}
+interface BlueprintFacadeInterface extends TrashableFacadeInterface {}
