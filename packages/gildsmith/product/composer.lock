@@ -585,17 +585,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gildsmith/contract.git",
-                "reference": "290fc606d4026a4fe088b0e16a8a688cffb1888e"
+                "reference": "c142212173933a216330aee0f3b93d7a41527760"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gildsmith/contract/zipball/290fc606d4026a4fe088b0e16a8a688cffb1888e",
-                "reference": "290fc606d4026a4fe088b0e16a8a688cffb1888e",
+                "url": "https://api.github.com/repos/gildsmith/contract/zipball/c142212173933a216330aee0f3b93d7a41527760",
+                "reference": "c142212173933a216330aee0f3b93d7a41527760",
                 "shasum": ""
             },
             "require-dev": {
                 "illuminate/support": "^12",
-                "laravel/pint": "^1"
+                "laravel/pint": "^1",
+                "pestphp/pest": "^3"
             },
             "default-branch": true,
             "type": "library",
@@ -618,7 +619,7 @@
                 "issues": "https://github.com/gildsmith/contract/issues",
                 "source": "https://github.com/gildsmith/contract/tree/master"
             },
-            "time": "2026-03-14T01:33:48+00:00"
+            "time": "2026-05-10T18:16:20+00:00"
         },
         {
             "name": "gildsmith/support",

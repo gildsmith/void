@@ -1,6 +1,6 @@
 <?php
 
-namespace Gildsmith\Support\Facades\Traits;
+namespace Gildsmith\Support\Traits;
 
 use Gildsmith\Product\Exceptions\MissingSoftDeletesException;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,14 +30,16 @@ trait ValidatesSoftDeletes
      * in the Facade operate on methods it provides.
      *
      * @template TModel of Model|Builder
-     * @phpstan-param TModel $model
-     * @phpstan-return TModel
+     *
+     * @phpstan-param Model $model
+     *
+     * @phpstan-return Model
      *
      * @throws MissingSoftDeletesException
      */
     protected function ensureSoftDeletes(Model|Builder $model): Model|Builder
     {
-        return !$this->usesSoftDeletes($model)
+        return ! $this->usesSoftDeletes($model)
             ? throw new MissingSoftDeletesException($model)
             : $model;
     }
