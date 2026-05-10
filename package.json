@@ -4,7 +4,13 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "docs:developer:dev": "npm --prefix docs/developer run dev",
+        "docs:developer:build": "npm --prefix docs/developer run build",
+        "docs:developer:preview": "npm --prefix docs/developer run preview",
+        "docs:merchant:dev": "npm --prefix docs/merchant run dev",
+        "docs:merchant:build": "npm --prefix docs/merchant run build",
+        "docs:merchant:preview": "npm --prefix docs/merchant run preview"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
