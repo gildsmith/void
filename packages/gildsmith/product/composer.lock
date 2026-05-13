@@ -627,12 +627,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gildsmith/support.git",
-                "reference": "daf3a8c4db66644e11112767d5742db6d23e85e9"
+                "reference": "b39154f589f7f06845cb0332e2529797c2684fc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gildsmith/support/zipball/daf3a8c4db66644e11112767d5742db6d23e85e9",
-                "reference": "daf3a8c4db66644e11112767d5742db6d23e85e9",
+                "url": "https://api.github.com/repos/gildsmith/support/zipball/b39154f589f7f06845cb0332e2529797c2684fc6",
+                "reference": "b39154f589f7f06845cb0332e2529797c2684fc6",
                 "shasum": ""
             },
             "require": {
@@ -675,7 +675,7 @@
                 "issues": "https://github.com/gildsmith/support/issues",
                 "source": "https://github.com/gildsmith/support/tree/master"
             },
-            "time": "2026-05-10T18:36:57+00:00"
+            "time": "2026-05-10T18:46:53+00:00"
         },
         {
             "name": "graham-campbell/result-type",

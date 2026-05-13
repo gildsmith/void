@@ -7,7 +7,7 @@ namespace Gildsmith\Product\Facades;
 use Gildsmith\Contract\Facades\Product\AttributeValueFacadeInterface;
 use Gildsmith\Contract\Product\AttributeValueInterface;
 use Gildsmith\Product\Exceptions\MissingSoftDeletesException;
-use Gildsmith\Support\Facades\Traits\ValidatesSoftDeletes;
+use Gildsmith\Support\Traits\ValidatesSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

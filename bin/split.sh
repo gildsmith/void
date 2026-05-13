@@ -24,12 +24,14 @@ remote contract git@github.com:gildsmith/contract.git
 remote product git@github.com:gildsmith/product.git
 remote skeleton git@github.com:gildsmith/skeleton.git
 remote support git@github.com:gildsmith/support.git
+remote testing git@github.com:gildsmith/testing.git
 
 split 'packages/gildsmith/anvil' anvil
 split 'packages/gildsmith/contract' contract
 split 'packages/gildsmith/product' product
 split 'packages/gildsmith/skeleton' skeleton
 split 'packages/gildsmith/support' support
+split 'packages/gildsmith/testing' testing
 
 # docs
 remote docs-developer git@github.com:gildsmith/docs-developer.git
