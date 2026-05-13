@@ -28,7 +28,8 @@
         "pestphp/pest-plugin-watch": "^3",
         "pestphp/pest-plugin-type-coverage": "^3",
         "pestphp/pest-plugin-stressless": "^3",
-        "orchestra/testbench": "^10"
+        "orchestra/testbench": "^10",
+        "gildsmith/testing": "dev-master"
     },
     "require": {
         "gildsmith/contract": "dev-master",

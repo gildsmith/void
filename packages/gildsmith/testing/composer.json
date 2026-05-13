@@ -4,8 +4,8 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "src/TrashableFacadeBehavior.php",
-            "src/CrudFacadeBehavior.php"
+            "src/TrashableFacadeContract.php",
+            "src/CrudFacadeContract.php"
         ]
     },
     "authors": [
