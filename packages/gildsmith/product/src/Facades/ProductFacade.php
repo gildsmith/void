@@ -47,6 +47,10 @@ class ProductFacade implements ProductFacadeInterface
     {
         $model = $this->find($code);
 
+        if ($model == null) {
+            return false;
+        }
+
         return $force
             ? $this->ensureSoftDeletes($model)->forceDelete()
             : $model->delete();

@@ -6515,12 +6515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gildsmith/testing.git",
-                "reference": "f2a23272833c145aeb6ba633cec5348def598e7a"
+                "reference": "2b79700aaa9bdee63935fc2cd8f6036d1e6757c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gildsmith/testing/zipball/f2a23272833c145aeb6ba633cec5348def598e7a",
-                "reference": "f2a23272833c145aeb6ba633cec5348def598e7a",
+                "url": "https://api.github.com/repos/gildsmith/testing/zipball/2b79700aaa9bdee63935fc2cd8f6036d1e6757c2",
+                "reference": "2b79700aaa9bdee63935fc2cd8f6036d1e6757c2",
                 "shasum": ""
             },
             "require": {
@@ -6537,8 +6537,8 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/TrashableFacadeBehavior.php",
-                    "src/CrudFacadeBehavior.php"
+                    "src/TrashableFacadeContract.php",
+                    "src/CrudFacadeContract.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6555,7 +6555,7 @@
                 "issues": "https://github.com/gildsmith/testing/issues",
                 "source": "https://github.com/gildsmith/testing/tree/master"
             },
-            "time": "2026-05-13T22:28:21+00:00"
+            "time": "2026-05-13T23:14:55+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
