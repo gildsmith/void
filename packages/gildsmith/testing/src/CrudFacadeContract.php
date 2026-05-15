@@ -11,22 +11,29 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @param  class-string<Facade>  $facade
  * @param  class-string<Model>  $model
- * @param  array<string, mixed>|Closure(): array<string, mixed>  $createData
- * @param  array<string, mixed>|Closure(): array<string, mixed>  $updateData
+ * @param  array<string, mixed>  $createData
+ * @param  array<string, mixed>  $updateData
  */
 function itFulfillsCrudFacadeContract(
     string $facade,
     string $model,
-    array|Closure $createData = [],
-    array|Closure $updateData = [],
+    array $createData = [],
+    array $updateData = [],
 ): void {
     describe($facade, function () use ($facade, $model, $createData, $updateData) {
-        $data = fn (array|Closure $value): array => $value instanceof Closure ? $value() : $value;
+        $createAttributes = fn (array $overrides = []): array => $model::factory()->raw(array_merge($createData, $overrides));
+        $updateAttributes = function (array $overrides = []) use ($model, $updateData): array {
+            $attributes = $model::factory()->raw(array_merge($updateData, $overrides));
+
+            unset($attributes['code']);
+
+            return $attributes;
+        };
         $attribute = fn (Model $record, string $key, mixed $expected): mixed => is_array($expected) && method_exists($record, 'getTranslations')
             ? $record->getTranslations($key)
             : $record->getAttribute($key);
 
-        describe('configuration', function () use ($facade, $model, $createData, $data) {
+        describe('configuration', function () use ($facade, $model, $createData) {
             it('receives a valid CRUD facade', function () use ($facade) {
                 expect(is_subclass_of($facade, Facade::class))->toBeTrue();
                 expect($facade::getFacadeRoot())->toBeInstanceOf(CrudFacadeInterface::class);
@@ -39,15 +46,15 @@ function itFulfillsCrudFacadeContract(
                 expect($model::factory()->modelName())->toBe($model);
             });
 
-            it('receives a model with a code attribute', function () use ($model, $createData, $data) {
-                $record = $model::factory()->create($data($createData));
+            it('receives a model with a code attribute', function () use ($model, $createData) {
+                $record = $model::factory()->create($createData);
 
                 expect($record->getAttribute('code'))->toBeString();
                 expect($record->getAttribute('code'))->not->toBeEmpty();
             });
         });
 
-        describe('all method', function () use ($facade, $model, $createData, $data) {
+        describe('all method', function () use ($facade, $model, $createData) {
             it('returns an empty collection when no records exist', function () use ($facade) {
                 $result = $facade::all();
 
@@ -55,9 +62,9 @@ function itFulfillsCrudFacadeContract(
                 expect($result)->toBeEmpty();
             });
 
-            it('returns all records', function () use ($facade, $model, $createData, $data) {
-                $first = $model::factory()->create($data($createData));
-                $second = $model::factory()->create($data($createData));
+            it('returns all records', function () use ($facade, $model, $createData) {
+                $first = $model::factory()->create($createData);
+                $second = $model::factory()->create($createData);
 
                 $result = $facade::all();
                 $codes = $result->pluck('code')->all();
@@ -67,8 +74,8 @@ function itFulfillsCrudFacadeContract(
                 expect($codes)->toContain($second->code);
             });
 
-            it('returns model instances', function () use ($facade, $model, $createData, $data) {
-                $model::factory()->create($data($createData));
+            it('returns model instances', function () use ($facade, $model, $createData) {
+                $model::factory()->create($createData);
 
                 $result = $facade::all();
 
@@ -76,9 +83,9 @@ function itFulfillsCrudFacadeContract(
             });
         });
 
-        describe('find method', function () use ($facade, $model, $createData, $data) {
-            it('finds an existing record by code', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->create(array_merge($data($createData), [
+        describe('find method', function () use ($facade, $model, $createData) {
+            it('finds an existing record by code', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'record-to-find',
                 ]));
 
@@ -94,12 +101,12 @@ function itFulfillsCrudFacadeContract(
                 expect($result)->toBeNull();
             });
 
-            it('finds records by code instead of database id', function () use ($facade, $model, $createData, $data) {
-                $first = $model::factory()->create(array_merge($data($createData), [
+            it('finds records by code instead of database id', function () use ($facade, $model, $createData) {
+                $first = $model::factory()->create(array_merge($createData, [
                     'code' => 'first-code',
                 ]));
 
-                $second = $model::factory()->create(array_merge($data($createData), [
+                $second = $model::factory()->create(array_merge($createData, [
                     'code' => (string) $first->getKey(),
                 ]));
 
@@ -110,9 +117,9 @@ function itFulfillsCrudFacadeContract(
             });
         });
 
-        describe('create method', function () use ($facade, $model, $createData, $data, $attribute) {
-            it('creates a record', function () use ($facade, $model, $createData, $data) {
-                $attributes = $data($createData);
+        describe('create method', function () use ($facade, $model, $createAttributes, $attribute) {
+            it('creates a record', function () use ($facade, $model, $createAttributes) {
+                $attributes = $createAttributes();
 
                 expect($attributes)->toHaveKey('code');
 
@@ -122,8 +129,8 @@ function itFulfillsCrudFacadeContract(
                 expect($model::query()->whereKey($result->getKey())->exists())->toBeTrue();
             });
 
-            it('persists provided data', function () use ($facade, $model, $createData, $data, $attribute) {
-                $attributes = $data($createData);
+            it('persists provided data', function () use ($facade, $model, $createAttributes, $attribute) {
+                $attributes = $createAttributes();
 
                 expect($attributes)->not->toBeEmpty();
                 expect($attributes)->toHaveKey('code');
@@ -136,8 +143,8 @@ function itFulfillsCrudFacadeContract(
                 }
             });
 
-            it('fails when code is missing', function () use ($facade, $createData, $data) {
-                $attributes = $data($createData);
+            it('fails when code is missing', function () use ($facade, $createAttributes) {
+                $attributes = $createAttributes();
 
                 unset($attributes['code']);
 
@@ -145,13 +152,13 @@ function itFulfillsCrudFacadeContract(
             });
         });
 
-        describe('update method', function () use ($facade, $model, $createData, $updateData, $data, $attribute) {
-            it('updates an existing record by code', function () use ($facade, $model, $createData, $updateData, $data, $attribute) {
-                $updates = $data($updateData);
+        describe('update method', function () use ($facade, $model, $createData, $updateAttributes, $attribute) {
+            it('updates an existing record by code', function () use ($facade, $model, $createData, $updateAttributes, $attribute) {
+                $updates = $updateAttributes();
 
                 expect($updates)->not->toBeEmpty();
 
-                $record = $model::factory()->create(array_merge($data($createData), [
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'record-to-update',
                 ]));
 
@@ -171,8 +178,8 @@ function itFulfillsCrudFacadeContract(
                 }
             });
 
-            it('does not allow changing the record code', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->create(array_merge($data($createData), [
+            it('does not allow changing the record code', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'original-code',
                 ]));
 
@@ -183,8 +190,8 @@ function itFulfillsCrudFacadeContract(
                 expect($model::query()->whereKey($record->getKey())->value('code'))->toBe('original-code');
             });
 
-            it('throws when record does not exist', function () use ($facade, $updateData, $data) {
-                $updates = $data($updateData);
+            it('throws when record does not exist', function () use ($facade, $updateAttributes) {
+                $updates = $updateAttributes();
 
                 expect($updates)->not->toBeEmpty();
 
@@ -192,9 +199,9 @@ function itFulfillsCrudFacadeContract(
             });
         });
 
-        describe('updateOrCreate method', function () use ($facade, $model, $createData, $updateData, $data, $attribute) {
-            it('creates a missing record by code', function () use ($facade, $model, $updateData, $data, $attribute) {
-                $updates = $data($updateData);
+        describe('updateOrCreate method', function () use ($facade, $model, $createData, $updateAttributes, $attribute) {
+            it('creates a missing record by code', function () use ($facade, $model, $updateAttributes, $attribute) {
+                $updates = $updateAttributes();
 
                 expect($updates)->not->toBeEmpty();
 
@@ -209,12 +216,12 @@ function itFulfillsCrudFacadeContract(
                 }
             });
 
-            it('updates an existing record by code', function () use ($facade, $model, $createData, $updateData, $data, $attribute) {
-                $updates = $data($updateData);
+            it('updates an existing record by code', function () use ($facade, $model, $createData, $updateAttributes, $attribute) {
+                $updates = $updateAttributes();
 
                 expect($updates)->not->toBeEmpty();
 
-                $record = $model::factory()->create(array_merge($data($createData), [
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'record-to-upsert',
                 ]));
 
@@ -234,12 +241,12 @@ function itFulfillsCrudFacadeContract(
                 }
             });
 
-            it('does not create duplicate records when updating an existing record', function () use ($facade, $model, $createData, $updateData, $data) {
-                $updates = $data($updateData);
+            it('does not create duplicate records when updating an existing record', function () use ($facade, $model, $createData, $updateAttributes) {
+                $updates = $updateAttributes();
 
                 expect($updates)->not->toBeEmpty();
 
-                $model::factory()->create(array_merge($data($createData), [
+                $model::factory()->create(array_merge($createData, [
                     'code' => 'record-to-upsert',
                 ]));
 
@@ -250,8 +257,8 @@ function itFulfillsCrudFacadeContract(
                 expect($count)->toBe(1);
             });
 
-            it('does not allow changing the record code through data', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->create(array_merge($data($createData), [
+            it('does not allow changing the record code through data', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'original-code',
                 ]));
 
@@ -263,9 +270,9 @@ function itFulfillsCrudFacadeContract(
             });
         });
 
-        describe('delete method', function () use ($facade, $model, $createData, $data) {
-            it('deletes an existing record by code', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->create(array_merge($data($createData), [
+        describe('delete method', function () use ($facade, $model, $createData) {
+            it('deletes an existing record by code', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'record-to-delete',
                 ]));
 

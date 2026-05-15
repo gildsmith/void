@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @param  class-string  $facade
  * @param  class-string  $model
- * @param  array<string, mixed>|Closure(): array<string, mixed>  $createData
- * @param  array<string, mixed>|Closure(): array<string, mixed>  $updateData
+ * @param  array<string, mixed>  $createData
+ * @param  array<string, mixed>  $updateData
  */
 function itFulfillsTrashableFacadeContract(
     string $facade,
     string $model,
-    array|Closure $createData = [],
-    array|Closure $updateData = [],
+    array $createData = [],
+    array $updateData = [],
 ): void {
     itFulfillsCrudFacadeContract(
         facade: $facade,
@@ -28,8 +28,6 @@ function itFulfillsTrashableFacadeContract(
     );
 
     describe($facade, function () use ($facade, $model, $createData) {
-        $data = fn (array|Closure $value): array => $value instanceof Closure ? $value() : $value;
-
         describe('configuration', function () use ($facade, $model) {
             it('receives a valid trashable facade', function () use ($facade) {
                 expect(is_subclass_of($facade, Facade::class))->toBeTrue();
@@ -42,12 +40,12 @@ function itFulfillsTrashableFacadeContract(
             });
         });
 
-        describe('all method with trashed records', function () use ($facade, $model, $createData, $data) {
-            it('excludes trashed records by default', function () use ($facade, $model, $createData, $data) {
-                $active = $model::factory()->create(array_merge($data($createData), [
+        describe('all method with trashed records', function () use ($facade, $model, $createData) {
+            it('excludes trashed records by default', function () use ($facade, $model, $createData) {
+                $active = $model::factory()->create(array_merge($createData, [
                     'code' => 'active-record',
                 ]));
-                $model::factory()->trashed()->create(array_merge($data($createData), [
+                $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'trashed-record',
                 ]));
 
@@ -57,11 +55,11 @@ function itFulfillsTrashableFacadeContract(
                 expect($result->pluck('code')->all())->toBe([$active->code]);
             });
 
-            it('includes trashed records when requested', function () use ($facade, $model, $createData, $data) {
-                $active = $model::factory()->create(array_merge($data($createData), [
+            it('includes trashed records when requested', function () use ($facade, $model, $createData) {
+                $active = $model::factory()->create(array_merge($createData, [
                     'code' => 'active-record',
                 ]));
-                $trashed = $model::factory()->trashed()->create(array_merge($data($createData), [
+                $trashed = $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'trashed-record',
                 ]));
 
@@ -72,17 +70,17 @@ function itFulfillsTrashableFacadeContract(
             });
         });
 
-        describe('find method with trashed records', function () use ($facade, $model, $createData, $data) {
-            it('excludes trashed records by default', function () use ($facade, $model, $createData, $data) {
-                $model::factory()->trashed()->create(array_merge($data($createData), [
+        describe('find method with trashed records', function () use ($facade, $model, $createData) {
+            it('excludes trashed records by default', function () use ($facade, $model, $createData) {
+                $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'trashed-record',
                 ]));
 
                 expect($facade::find('trashed-record'))->toBeNull();
             });
 
-            it('finds trashed records when requested', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->trashed()->create(array_merge($data($createData), [
+            it('finds trashed records when requested', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'trashed-record',
                 ]));
 
@@ -93,9 +91,9 @@ function itFulfillsTrashableFacadeContract(
             });
         });
 
-        describe('delete method with trashed records', function () use ($facade, $model, $createData, $data) {
-            it('soft deletes by default', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->create(array_merge($data($createData), [
+        describe('delete method with trashed records', function () use ($facade, $model, $createData) {
+            it('soft deletes by default', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->create(array_merge($createData, [
                     'code' => 'record-to-trash',
                 ]));
 
@@ -106,8 +104,8 @@ function itFulfillsTrashableFacadeContract(
                 expect($model::withTrashed()->whereKey($record->getKey())->exists())->toBeTrue();
             });
 
-            it('force deletes trashed records', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->trashed()->create(array_merge($data($createData), [
+            it('force deletes trashed records', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'record-to-force-delete',
                 ]));
 
@@ -118,9 +116,9 @@ function itFulfillsTrashableFacadeContract(
             });
         });
 
-        describe('restore method', function () use ($facade, $model, $createData, $data) {
-            it('restores a trashed record by code', function () use ($facade, $model, $createData, $data) {
-                $record = $model::factory()->trashed()->create(array_merge($data($createData), [
+        describe('restore method', function () use ($facade, $model, $createData) {
+            it('restores a trashed record by code', function () use ($facade, $model, $createData) {
+                $record = $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'record-to-restore',
                 ]));
 
@@ -135,12 +133,12 @@ function itFulfillsTrashableFacadeContract(
             });
         });
 
-        describe('trashed method', function () use ($facade, $model, $createData, $data) {
-            it('returns only trashed records', function () use ($facade, $model, $createData, $data) {
-                $model::factory()->create(array_merge($data($createData), [
+        describe('trashed method', function () use ($facade, $model, $createData) {
+            it('returns only trashed records', function () use ($facade, $model, $createData) {
+                $model::factory()->create(array_merge($createData, [
                     'code' => 'active-record',
                 ]));
-                $trashed = $model::factory()->trashed()->create(array_merge($data($createData), [
+                $trashed = $model::factory()->trashed()->create(array_merge($createData, [
                     'code' => 'trashed-record',
                 ]));
 
