@@ -10,6 +10,7 @@ use Gildsmith\Contract\Product\ProductCollectionInterface;
 use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Database\Factories\ProductFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
+use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,10 +23,13 @@ class Product extends Model implements ProductInterface
 {
     use HasAbstractRelationships;
     use HasFactory;
+    use HasImmutableAttributes;
     use HasTranslations;
     use SoftDeletes;
 
     protected array $translatable = ['name'];
+
+    protected array $immutable = ['code'];
 
     protected $fillable = ['code', 'name', 'blueprint_id'];
 

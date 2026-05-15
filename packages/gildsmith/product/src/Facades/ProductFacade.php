@@ -45,7 +45,7 @@ class ProductFacade implements ProductFacadeInterface
      */
     public function delete(string $code, bool $force = false): bool
     {
-        $model = $this->find($code);
+        $model = $this->find($code, $force);
 
         if ($model == null) {
             return false;
@@ -78,6 +78,10 @@ class ProductFacade implements ProductFacadeInterface
     {
         $model = $this->find($code, true);
 
+        if ($model === null) {
+            return false;
+        }
+
         return $this->ensureSoftDeletes($model)->restore();
     }
 
@@ -100,6 +104,11 @@ class ProductFacade implements ProductFacadeInterface
     public function update(string $code, array $data): ProductInterface
     {
         $model = $this->find($code, true);
+
+        if ($model === null) {
+            throw new \InvalidArgumentException("Product [{$code}] does not exist.");
+        }
+
         $model->update($data);
 
         return $model->fresh();
