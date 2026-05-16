@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 /**
  * Generic CRUD facade interface.
  *
- * @template TModel of HasCodeInterface
+ * @template TModel of Model&HasCodeInterface
  */
 interface CrudFacadeInterface
 {
@@ -35,7 +35,7 @@ interface CrudFacadeInterface
     /**
      * Update an existing model by its code.
      */
-    public function update(string $code, array $data): Model&HasCodeInterface;
+    public function update(string $code, array $data): (Model&HasCodeInterface)|null;
 
     /**
      * Create or update a model based on the given code.

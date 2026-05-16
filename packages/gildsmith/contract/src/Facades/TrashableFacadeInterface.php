@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 /**
  * CRUD facade with soft-delete support.
  *
- * @template TModel of HasCodeInterface
+ * @template TModel of Model&HasCodeInterface
  *
  * @extends CrudFacadeInterface<TModel>
  */
