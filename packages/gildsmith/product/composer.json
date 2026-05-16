@@ -32,6 +32,7 @@
         "gildsmith/testing": "dev-master"
     },
     "require": {
+        "php": "^8.4",
         "gildsmith/contract": "dev-master",
         "gildsmith/support": "dev-master",
         "spatie/laravel-translatable": "^6",

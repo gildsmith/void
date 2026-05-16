@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gildsmith\Contract\Product;
 
+use Gildsmith\Contract\Models\HasCodeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -12,19 +15,15 @@ use Illuminate\Support\Collection;
  * @property-read string $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
- *
  * @property-read string $code
  *  Unique business identifier.
  *  Immutable and used for lookups.
- *
  * @property string $name
- *  Human-readable name.
- *
+ *                        Human-readable name.
  * @property-read Collection<int, AttributeValueInterface> $values
  *  Collection of all values available for this attribute.
  *  Each entry is an AttributeValue representing one possible option.
- *
  * @property-read Collection<int, BlueprintInterface> $blueprints
  *  Blueprints that include this attribute in their definition.
  */
-interface AttributeInterface {}
+interface AttributeInterface extends HasCodeInterface {}

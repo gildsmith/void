@@ -1,23 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gildsmith\Contract\Facades;
 
+use Gildsmith\Contract\Models\HasCodeInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
  * CRUD facade with soft-delete support.
  *
- * @template TModel
+ * @template TModel of HasCodeInterface
+ *
  * @extends CrudFacadeInterface<TModel>
  */
 interface TrashableFacadeInterface extends CrudFacadeInterface
 {
     /**
      * Retrieve a model by code, including soft-deleted models.
-     *
-     * @return TModel|null
      */
-    public function find(string $code, bool $withTrashed = false);
+    public function find(string $code, bool $withTrashed = false): (Model&HasCodeInterface)|null;
 
     /**
      * Retrieve all models.

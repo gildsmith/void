@@ -9,6 +9,7 @@ use Gildsmith\Contract\Product\BlueprintInterface;
 use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Database\Factories\BlueprintFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
+use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ use Spatie\Translatable\HasTranslations;
 class Blueprint extends Model implements BlueprintInterface
 {
     use HasAbstractRelationships;
+    use HasCode;
     use HasFactory;
     use HasTranslations;
     use SoftDeletes;

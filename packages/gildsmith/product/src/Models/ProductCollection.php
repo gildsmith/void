@@ -8,6 +8,7 @@ use Gildsmith\Contract\Product\ProductCollectionInterface;
 use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Database\Factories\ProductCollectionFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
+use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ use Spatie\Translatable\HasTranslations;
 class ProductCollection extends Model implements ProductCollectionInterface
 {
     use HasAbstractRelationships;
+    use HasCode;
     use HasFactory;
     use HasTranslations;
     use SoftDeletes;

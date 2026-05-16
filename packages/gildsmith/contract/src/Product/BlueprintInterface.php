@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gildsmith\Contract\Product;
 
+use Gildsmith\Contract\Models\HasCodeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -16,26 +19,21 @@ use Illuminate\Support\Collection;
  * @property-read string $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
- *
  * @property-read string $code
  *  Unique business identifier.
  *  Immutable and used for lookups.
- *
  * @property string $name
- *  Human-readable name.
- *
+ *                        Human-readable name.
  * @property Collection<int, AttributeInterface> $attributes
- *  List of all attributes attached to this.
- *  These define the structure expected of a product.
- *
+ *                                                           List of all attributes attached to this.
+ *                                                           These define the structure expected of a product.
  * @property Collection<int, ProductInterface> $products
- *  Products currently assigned to this blueprint.
- *
+ *                                                       Products currently assigned to this blueprint.
  * @property-read bool $strict
  *  Whether this Blueprint forbids any attributes that
  *  are not explicitly declared in $attributes.
  */
-interface BlueprintInterface
+interface BlueprintInterface extends HasCodeInterface
 {
     /**
      * Determines whether the given attribute codes

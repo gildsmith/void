@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gildsmith\Contract\Product;
 
+use Gildsmith\Contract\Models\HasCodeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -15,18 +18,14 @@ use Illuminate\Support\Collection;
  * @property-read string $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
- *
  * @property-read string $code
  *  Unique business identifier.
  *  Immutable and used for lookups.
- *
  * @property string $name
- *  Human-readable name.
- *
+ *                        Human-readable name.
  * @property-read Collection<int, ProductInterface> $products
  * Products included in this collection.
- *
  * @property string $type
- *  Describes the purpose or usage of this collection.
+ *                        Describes the purpose or usage of this collection.
  */
-interface ProductCollectionInterface {}
+interface ProductCollectionInterface extends HasCodeInterface {}

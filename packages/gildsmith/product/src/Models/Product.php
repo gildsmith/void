@@ -10,6 +10,7 @@ use Gildsmith\Contract\Product\ProductCollectionInterface;
 use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Database\Factories\ProductFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
+use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,7 @@ use Spatie\Translatable\HasTranslations;
 class Product extends Model implements ProductInterface
 {
     use HasAbstractRelationships;
+    use HasCode;
     use HasFactory;
     use HasImmutableAttributes;
     use HasTranslations;

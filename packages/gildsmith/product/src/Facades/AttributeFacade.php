@@ -32,7 +32,7 @@ class AttributeFacade implements AttributeFacadeInterface
             : $builder->get();
     }
 
-    public function create(array $data): AttributeInterface
+    public function create(array $data): Model&AttributeInterface
     {
         /** @var Builder $builder */
         $builder = resolve(AttributeInterface::class);
@@ -57,7 +57,7 @@ class AttributeFacade implements AttributeFacadeInterface
      *
      * @throws MissingSoftDeletesException
      */
-    public function find(string $code, bool $withTrashed = false): ?AttributeInterface
+    public function find(string $code, bool $withTrashed = false): (Model&AttributeInterface)|null
     {
         /** @var Builder&SoftDeletes $builder */
         $builder = resolve(AttributeInterface::class);
@@ -93,7 +93,7 @@ class AttributeFacade implements AttributeFacadeInterface
     /**
      * @throws MissingSoftDeletesException
      */
-    public function update(string $code, array $data): AttributeInterface
+    public function update(string $code, array $data): Model&AttributeInterface
     {
         $model = $this->find($code, true);
         $model->update($data);
@@ -101,7 +101,7 @@ class AttributeFacade implements AttributeFacadeInterface
         return $model->fresh();
     }
 
-    public function updateOrCreate(string $code, array $data): AttributeInterface
+    public function updateOrCreate(string $code, array $data): Model&AttributeInterface
     {
         /** @var Builder $builder */
         $builder = resolve(AttributeInterface::class);

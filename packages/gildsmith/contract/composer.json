@@ -13,6 +13,9 @@
             "email": "hello@itsmattch.com"
         }
     ],
+    "require": {
+        "php": "^8.4"
+    },
     "require-dev": {
         "illuminate/support": "^12",
         "laravel/pint": "^1",

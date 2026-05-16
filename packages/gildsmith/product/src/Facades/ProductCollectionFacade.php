@@ -32,7 +32,7 @@ class ProductCollectionFacade implements ProductCollectionFacadeInterface
             : $builder->get();
     }
 
-    public function create(array $data): ProductCollectionInterface
+    public function create(array $data): Model&ProductCollectionInterface
     {
         /** @var Builder $builder */
         $builder = resolve(ProductCollectionInterface::class);
@@ -57,7 +57,7 @@ class ProductCollectionFacade implements ProductCollectionFacadeInterface
      *
      * @throws MissingSoftDeletesException
      */
-    public function find(string $code, bool $withTrashed = false): ?ProductCollectionInterface
+    public function find(string $code, bool $withTrashed = false): (Model&ProductCollectionInterface)|null
     {
         /** @var Builder&SoftDeletes $builder */
         $builder = resolve(ProductCollectionInterface::class);
@@ -93,7 +93,7 @@ class ProductCollectionFacade implements ProductCollectionFacadeInterface
     /**
      * @throws MissingSoftDeletesException
      */
-    public function update(string $code, array $data): ProductCollectionInterface
+    public function update(string $code, array $data): Model&ProductCollectionInterface
     {
         $model = $this->find($code, true);
         $model->update($data);
@@ -101,7 +101,7 @@ class ProductCollectionFacade implements ProductCollectionFacadeInterface
         return $model->fresh();
     }
 
-    public function updateOrCreate(string $code, array $data): ProductCollectionInterface
+    public function updateOrCreate(string $code, array $data): Model&ProductCollectionInterface
     {
         /** @var Builder $builder */
         $builder = resolve(ProductCollectionInterface::class);

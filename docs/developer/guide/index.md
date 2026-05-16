@@ -15,3 +15,14 @@ packages that can be installed independently.
 
 The `void` monorepo contains the Laravel workbench app at the repository root and
 first-party packages in `packages/gildsmith/*`.
+
+## What to read next
+
+- [Getting Started](/guide/getting-started) explains how to install the monorepo
+  and run the local Laravel application.
+- [Creating Packages](/guide/creating-packages) shows the current options for
+  starting a new Gildsmith package.
+- [Core Packages](/guide/core-packages) explains the role of `contract`,
+  `support`, and `testing`.
+- [Facades and Contracts](/guide/facades-and-contracts) documents the CRUD facade
+  pattern used by first-party packages.

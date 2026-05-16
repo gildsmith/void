@@ -32,7 +32,7 @@ class BlueprintFacade implements BlueprintFacadeInterface
             : $builder->get();
     }
 
-    public function create(array $data): BlueprintInterface
+    public function create(array $data): Model&BlueprintInterface
     {
         /** @var Builder $builder */
         $builder = resolve(BlueprintInterface::class);
@@ -57,7 +57,7 @@ class BlueprintFacade implements BlueprintFacadeInterface
      *
      * @throws MissingSoftDeletesException
      */
-    public function find(string $code, bool $withTrashed = false): ?BlueprintInterface
+    public function find(string $code, bool $withTrashed = false): (Model&BlueprintInterface)|null
     {
         /** @var Builder&SoftDeletes $builder */
         $builder = resolve(BlueprintInterface::class);
@@ -93,7 +93,7 @@ class BlueprintFacade implements BlueprintFacadeInterface
     /**
      * @throws MissingSoftDeletesException
      */
-    public function update(string $code, array $data): BlueprintInterface
+    public function update(string $code, array $data): Model&BlueprintInterface
     {
         $model = $this->find($code, true);
         $model->update($data);
@@ -101,7 +101,7 @@ class BlueprintFacade implements BlueprintFacadeInterface
         return $model->fresh();
     }
 
-    public function updateOrCreate(string $code, array $data): BlueprintInterface
+    public function updateOrCreate(string $code, array $data): Model&BlueprintInterface
     {
         /** @var Builder $builder */
         $builder = resolve(BlueprintInterface::class);

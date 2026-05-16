@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gildsmith\Contract\Facades;
 
+use Gildsmith\Contract\Models\HasCodeInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
  * Generic CRUD facade interface.
  *
- * @template TModel
+ * @template TModel of HasCodeInterface
  */
 interface CrudFacadeInterface
 {
     /**
      * Retrieve a model by its unique code.
-     *
-     * @return TModel|null
      */
-    public function find(string $code);
+    public function find(string $code): (Model&HasCodeInterface)|null;
 
     /**
      * Retrieve all models.
@@ -27,24 +29,18 @@ interface CrudFacadeInterface
 
     /**
      * Create a new model using the provided data array.
-     *
-     * @return TModel
      */
-    public function create(array $data);
+    public function create(array $data): Model&HasCodeInterface;
 
     /**
      * Update an existing model by its code.
-     *
-     * @return TModel
      */
-    public function update(string $code, array $data);
+    public function update(string $code, array $data): Model&HasCodeInterface;
 
     /**
      * Create or update a model based on the given code.
-     *
-     * @return TModel
      */
-    public function updateOrCreate(string $code, array $data);
+    public function updateOrCreate(string $code, array $data): Model&HasCodeInterface;
 
     /**
      * Delete a model by its code.
