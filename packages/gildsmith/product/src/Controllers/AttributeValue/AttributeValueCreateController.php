@@ -5,16 +5,23 @@ declare(strict_types=1);
 namespace Gildsmith\Product\Controllers\AttributeValue;
 
 use Gildsmith\Contract\Product\AttributeValueInterface;
-use Gildsmith\Support\Facades\Product;
+use Gildsmith\Support\Facades\Attribute;
+use Gildsmith\Support\Facades\AttributeValue;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class AttributeValueCreateController extends Controller
 {
     public function __invoke(Request $request, string $attribute): AttributeValueInterface
     {
-        $attributeModel = Product::attribute()->find($attribute);
+        $attributeModel = Attribute::find($attribute);
 
-        return $attributeModel->values()->forceCreate($request->all());
+        abort_if(! $attributeModel, Response::HTTP_NOT_FOUND);
+
+        $data = $request->all();
+        $data['attribute_id'] = $attributeModel->getKey();
+
+        return AttributeValue::create($data);
     }
 }

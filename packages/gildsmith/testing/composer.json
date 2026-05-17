@@ -4,8 +4,9 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "src/TrashableFacadeContract.php",
-            "src/CrudFacadeContract.php"
+            "src/Facades/CrudFacadeContract.php",
+            "src/Facades/TrashableFacadeContract.php",
+            "src/Routing/TrashableResourceRouteAuthorizationContract.php"
         ]
     },
     "authors": [

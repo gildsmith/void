@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Gildsmith\Product\Controllers\ProductCollection;
 
-use Gildsmith\Support\Facades\Product;
+use Gildsmith\Support\Facades\ProductCollection;
 use Illuminate\Routing\Controller;
 
 class ProductCollectionTrashController extends Controller
 {
     public function __invoke(string $code): bool
     {
-        return Product::collection()->delete($code);
+        return ProductCollection::delete($code);
     }
 }
