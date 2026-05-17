@@ -585,13 +585,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gildsmith/contract.git",
-                "reference": "c142212173933a216330aee0f3b93d7a41527760"
+                "reference": "2f6b5652196107655ed71e45038eadf100cda905"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gildsmith/contract/zipball/c142212173933a216330aee0f3b93d7a41527760",
-                "reference": "c142212173933a216330aee0f3b93d7a41527760",
+                "url": "https://api.github.com/repos/gildsmith/contract/zipball/2f6b5652196107655ed71e45038eadf100cda905",
+                "reference": "2f6b5652196107655ed71e45038eadf100cda905",
                 "shasum": ""
+            },
+            "require": {
+                "php": "^8.4"
             },
             "require-dev": {
                 "illuminate/support": "^12",
@@ -619,7 +622,7 @@
                 "issues": "https://github.com/gildsmith/contract/issues",
                 "source": "https://github.com/gildsmith/contract/tree/master"
             },
-            "time": "2026-05-10T18:16:20+00:00"
+            "time": "2026-05-17T22:19:10+00:00"
         },
         {
             "name": "gildsmith/support",
@@ -6515,12 +6518,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gildsmith/testing.git",
-                "reference": "2b79700aaa9bdee63935fc2cd8f6036d1e6757c2"
+                "reference": "896ae52cc525947eea4112cc58dd07ee6a48d5da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gildsmith/testing/zipball/2b79700aaa9bdee63935fc2cd8f6036d1e6757c2",
-                "reference": "2b79700aaa9bdee63935fc2cd8f6036d1e6757c2",
+                "url": "https://api.github.com/repos/gildsmith/testing/zipball/896ae52cc525947eea4112cc58dd07ee6a48d5da",
+                "reference": "896ae52cc525947eea4112cc58dd07ee6a48d5da",
                 "shasum": ""
             },
             "require": {
@@ -6537,8 +6540,9 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/TrashableFacadeContract.php",
-                    "src/CrudFacadeContract.php"
+                    "src/Facades/CrudFacadeContract.php",
+                    "src/Facades/TrashableFacadeContract.php",
+                    "src/Routing/TrashableResourceRouteAuthorizationContract.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6555,7 +6559,7 @@
                 "issues": "https://github.com/gildsmith/testing/issues",
                 "source": "https://github.com/gildsmith/testing/tree/master"
             },
-            "time": "2026-05-13T23:14:55+00:00"
+            "time": "2026-05-17T22:19:10+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
