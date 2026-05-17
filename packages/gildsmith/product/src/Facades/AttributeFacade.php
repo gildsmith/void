@@ -45,7 +45,11 @@ class AttributeFacade implements AttributeFacadeInterface
      */
     public function delete(string $code, bool $force = false): bool
     {
-        $model = $this->find($code);
+        $model = $this->find($code, $force);
+
+        if ($model == null) {
+            return false;
+        }
 
         return $force
             ? $this->ensureSoftDeletes($model)->forceDelete()
@@ -74,6 +78,10 @@ class AttributeFacade implements AttributeFacadeInterface
     {
         $model = $this->find($code, true);
 
+        if ($model === null) {
+            return false;
+        }
+
         return $this->ensureSoftDeletes($model)->restore();
     }
 
@@ -93,12 +101,13 @@ class AttributeFacade implements AttributeFacadeInterface
     /**
      * @throws MissingSoftDeletesException
      */
-    public function update(string $code, array $data): Model&AttributeInterface
+    public function update(string $code, array $data): (Model&AttributeInterface)|null
     {
         $model = $this->find($code, true);
-        $model->update($data);
+        $model?->update($data);
+        $model?->refresh();
 
-        return $model->fresh();
+        return $model;
     }
 
     public function updateOrCreate(string $code, array $data): Model&AttributeInterface

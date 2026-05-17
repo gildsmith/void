@@ -10,6 +10,7 @@ use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Database\Factories\BlueprintFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
+use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,12 +24,15 @@ class Blueprint extends Model implements BlueprintInterface
     use HasAbstractRelationships;
     use HasCode;
     use HasFactory;
+    use HasImmutableAttributes;
     use HasTranslations;
     use SoftDeletes;
 
     public $timestamps = false;
 
     protected array $translatable = ['name'];
+
+    protected array $immutable = ['code'];
 
     protected $fillable = ['code', 'name'];
 

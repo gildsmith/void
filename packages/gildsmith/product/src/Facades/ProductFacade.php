@@ -101,17 +101,13 @@ class ProductFacade implements ProductFacadeInterface
     /**
      * @throws MissingSoftDeletesException
      */
-    public function update(string $code, array $data): Model&ProductInterface
+    public function update(string $code, array $data): (Model&ProductInterface)|null
     {
         $model = $this->find($code, true);
+        $model?->update($data);
+        $model?->refresh();
 
-        if ($model === null) {
-            throw new \InvalidArgumentException("Product [{$code}] does not exist.");
-        }
-
-        $model->update($data);
-
-        return $model->fresh();
+        return $model;
     }
 
     public function updateOrCreate(string $code, array $data): Model&ProductInterface

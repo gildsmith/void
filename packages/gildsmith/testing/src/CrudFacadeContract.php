@@ -193,12 +193,12 @@ function itFulfillsCrudFacadeContract(
                 expect($model::query()->whereKey($record->getKey())->value('code'))->toBe('original-code');
             });
 
-            it('throws when record does not exist', function () use ($facade, $updateAttributes) {
+            it('returns null when record does not exist', function () use ($facade, $updateAttributes) {
                 $updates = $updateAttributes();
 
                 expect($updates)->not->toBeEmpty();
 
-                expect(fn () => $facade::update((string) str()->uuid(), $updates))->toThrow(Exception::class);
+                expect($facade::update((string) str()->uuid(), $updates))->toBeNull();
             });
         });
 

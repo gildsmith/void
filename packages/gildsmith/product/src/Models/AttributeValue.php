@@ -10,6 +10,7 @@ use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Product\Database\Factories\AttributeValueFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
+use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,12 +24,15 @@ class AttributeValue extends Model implements AttributeValueInterface
     use HasAbstractRelationships;
     use HasCode;
     use HasFactory;
+    use HasImmutableAttributes;
     use HasTranslations;
     use SoftDeletes;
 
     public array $translatable = ['name'];
 
-    protected $fillable = ['name'];
+    protected array $immutable = ['code'];
+
+    protected $fillable = ['code', 'name', 'attribute_id'];
 
     public array $rules = [
         'code' => ValidationRules::CODE,

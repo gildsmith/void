@@ -10,6 +10,7 @@ use Gildsmith\Contract\Product\BlueprintInterface;
 use Gildsmith\Product\Database\Factories\AttributeFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
+use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,10 +24,13 @@ class Attribute extends Model implements AttributeInterface
     use HasAbstractRelationships;
     use HasCode;
     use HasFactory;
+    use HasImmutableAttributes;
     use HasTranslations;
     use SoftDeletes;
 
     public array $translatable = ['name'];
+
+    protected array $immutable = ['code'];
 
     protected $fillable = ['code', 'name'];
 

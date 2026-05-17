@@ -58,7 +58,7 @@ public function find(string $code): (Model&HasCodeInterface)|null;
 
 public function create(array $data): Model&HasCodeInterface;
 
-public function update(string $code, array $data): Model&HasCodeInterface;
+public function update(string $code, array $data): (Model&HasCodeInterface)|null;
 
 public function updateOrCreate(string $code, array $data): Model&HasCodeInterface;
 ```
