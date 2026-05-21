@@ -20,14 +20,18 @@ use Illuminate\Support\Collection;
  * which attributes are required for a given type. For example, a chair
  * might require dimensions and colour, while a car might require number of doors.
  *
- * @property-read string $id
+ * @property-read int $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
  * @property-read string $code
  *  Unique business identifier.
  *  Immutable and used for lookups.
- * @property-read string $name
- *  Human-readable name.
+ * @property string $name
+ *                        Human-readable name.
+ * @property int $blueprint_id
+ *                             Foreign key for the blueprint that defines the product structure.
+ * @property bool $is_complete
+ *                             Whether the product currently satisfies its required blueprint attributes.
  * @property-read BlueprintInterface $blueprint
  *  A blueprint that defines what attributes should the model have.
  * @property-read Collection<int, ProductCollectionInterface> $collections

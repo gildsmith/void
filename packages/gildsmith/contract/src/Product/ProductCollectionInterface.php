@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
  * things and be used for different reasons. You can even have a collection that's
  * completely virtual and not visible to users.
  *
- * @property-read string $id
+ * @property-read int $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
  * @property-read string $code
@@ -23,9 +23,15 @@ use Illuminate\Support\Collection;
  *  Immutable and used for lookups.
  * @property string $name
  *                        Human-readable name.
- * @property-read Collection<int, ProductInterface> $products
- * Products included in this collection.
  * @property string $type
  *                        Describes the purpose or usage of this collection.
+ * @property-read \DateTimeInterface|null $created_at
+ *  Timestamp when the collection was created.
+ * @property-read \DateTimeInterface|null $updated_at
+ *  Timestamp when the collection was last updated.
+ * @property-read \DateTimeInterface|null $deleted_at
+ *  Timestamp when the collection was soft deleted, or null if active.
+ * @property-read Collection<int, ProductInterface> $products
+ *  Products included in this collection.
  */
 interface ProductCollectionInterface extends HasCodeInterface {}

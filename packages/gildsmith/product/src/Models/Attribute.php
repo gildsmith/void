@@ -8,6 +8,7 @@ use Gildsmith\Contract\Product\AttributeInterface;
 use Gildsmith\Contract\Product\AttributeValueInterface;
 use Gildsmith\Contract\Product\BlueprintInterface;
 use Gildsmith\Product\Database\Factories\AttributeFactory;
+use Gildsmith\Product\Models\Pivots\AttributeBlueprint;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
@@ -42,7 +43,9 @@ class Attribute extends Model implements AttributeInterface
 
     public function blueprints(): BelongsToMany
     {
-        return $this->belongsToMany(BlueprintInterface::class);
+        return $this->belongsToMany(BlueprintInterface::class)
+            ->using(AttributeBlueprint::class)
+            ->withPivot('required');
     }
 
     public function values(): HasMany

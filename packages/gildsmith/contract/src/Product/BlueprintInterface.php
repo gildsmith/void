@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
  * It defines which attributes are expected on a product,
  * and optionally enforces strict mode, forbidding extra ones.
  *
- * @property-read string $id
+ * @property-read int $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
  * @property-read string $code
@@ -24,14 +24,13 @@ use Illuminate\Support\Collection;
  *  Immutable and used for lookups.
  * @property string $name
  *                        Human-readable name.
- * @property Collection<int, AttributeInterface> $attributes
- *                                                           List of all attributes attached to this.
- *                                                           These define the structure expected of a product.
- * @property Collection<int, ProductInterface> $products
- *                                                       Products currently assigned to this blueprint.
- * @property-read bool $strict
- *  Whether this Blueprint forbids any attributes that
- *  are not explicitly declared in $attributes.
+ * @property-read \DateTimeInterface|null $deleted_at
+ *  Timestamp when the blueprint was soft deleted, or null if active.
+ * @property-read Collection<int, AttributeInterface> $attributes
+ *  List of all attributes attached to this.
+ *  These define the structure expected of a product.
+ * @property-read Collection<int, ProductInterface> $products
+ *  Products currently assigned to this blueprint.
  */
 interface BlueprintInterface extends HasCodeInterface
 {

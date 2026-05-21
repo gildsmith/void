@@ -18,6 +18,7 @@ export default defineConfig({
                     { text: 'Introduction', link: '/guide/' },
                     { text: 'Getting Started', link: '/guide/getting-started' },
                     { text: 'Creating Packages', link: '/guide/creating-packages' },
+                    { text: 'Resource Architecture', link: '/guide/resource-architecture' },
                     { text: 'Core Packages', link: '/guide/core-packages' },
                     { text: 'Facades and Contracts', link: '/guide/facades-and-contracts' },
                 ],

@@ -35,6 +35,10 @@ class Product extends Model implements ProductInterface
 
     protected $fillable = ['code', 'name', 'blueprint_id'];
 
+    protected $casts = [
+        'is_complete' => 'bool',
+    ];
+
     public array $rules = [
         'code' => ValidationRules::CODE,
     ];
@@ -42,6 +46,11 @@ class Product extends Model implements ProductInterface
     protected static function newFactory(): ProductFactory
     {
         return ProductFactory::new();
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (Product $product) => $product->recalculateCompleteness());
     }
 
     public function blueprint(): BelongsTo
@@ -57,5 +66,47 @@ class Product extends Model implements ProductInterface
     public function attributeValues(): BelongsToMany
     {
         return $this->belongsToMany(AttributeValueInterface::class);
+    }
+
+    public function isComplete(): bool
+    {
+        return $this->is_complete;
+    }
+
+    public function markComplete(): bool
+    {
+        return $this->forceFill(['is_complete' => true])->saveQuietly();
+    }
+
+    public function markIncomplete(): bool
+    {
+        return $this->forceFill(['is_complete' => false])->saveQuietly();
+    }
+
+    public function recalculateCompleteness(): bool
+    {
+        $blueprint = $this->blueprint()->first();
+
+        $requiredAttributeIds = $blueprint === null
+            ? []
+            : $blueprint->attributes()
+                ->wherePivot('required', true)
+                ->pluck('attributes.id')
+                ->all();
+
+        $isComplete = true;
+
+        if ($requiredAttributeIds !== []) {
+            $assignedRequiredAttributes = $this->attributeValues()
+                ->whereIn('attribute_values.attribute_id', $requiredAttributeIds)
+                ->distinct()
+                ->count('attribute_values.attribute_id');
+
+            $isComplete = $assignedRequiredAttributes === count($requiredAttributeIds);
+        }
+
+        $this->forceFill(['is_complete' => $isComplete])->saveQuietly();
+
+        return $isComplete;
     }
 }

@@ -22,6 +22,8 @@ first-party packages in `packages/gildsmith/*`.
   and run the local Laravel application.
 - [Creating Packages](/guide/creating-packages) shows the current options for
   starting a new Gildsmith package.
+- [Resource Architecture](/guide/resource-architecture) explains the code,
+  facade, ability, and testing conventions used by resource packages.
 - [Core Packages](/guide/core-packages) explains the role of `contract`,
   `support`, and `testing`.
 - [Facades and Contracts](/guide/facades-and-contracts) documents the CRUD facade

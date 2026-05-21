@@ -5,6 +5,12 @@ should be built in packages, not directly in the root framework application. A
 package should own a small domain, publish its Laravel service provider, and
 expose stable contracts or facades when other packages need to talk to it.
 
+Most domain packages are resource packages. In Gildsmith, that usually means the
+resource has a unique human-readable `code`, exposes public writes through a
+facade, protects routes with shared abilities, and uses the shared testing
+contracts. Read [Resource Architecture](/guide/resource-architecture) before
+designing a new package API.
+
 ## Choose a starting point
 
 There are three practical ways to start a package.
@@ -154,5 +160,7 @@ Before calling a package ready, check that it can:
 - Discover its Laravel service provider.
 - Run its package tests from inside the package directory.
 - Bind its contracts to concrete implementations when it provides a public API.
+- Follow the resource conventions for codes, facades, abilities, and tests when
+  the package exposes managed resources.
 - Avoid leaking domain writes through controllers or models when a facade should
   own the workflow.

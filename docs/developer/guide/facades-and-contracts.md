@@ -66,6 +66,9 @@ public function updateOrCreate(string $code, array $data): Model&HasCodeInterfac
 Domain-specific facade implementations should narrow those returns to their own
 interfaces, such as `Model&ProductInterface`.
 
+For the broader resource pattern around codes, migrations, abilities, and route
+tests, read [Resource Architecture](/guide/resource-architecture).
+
 ## Trashable facade contract
 
 Soft-deletable resources should implement
@@ -148,6 +151,21 @@ itFulfillsTrashableFacadeContract(
 The helper expects the model factory to create a complete valid record. If a
 model requires relations or translated fields, put that knowledge in the
 factory. The test helper should only receive overrides for unusual scenarios.
+
+When a package exposes HTTP routes for the resource, also test the route surface
+with the routing helpers:
+
+```php
+use Gildsmith\Contract\Product\ProductInterface;
+
+itExposesTrashableResourceRoutes(
+    uri: 'products',
+    contract: ProductInterface::class,
+);
+```
+
+This verifies the registered routes and their `can` middleware. It does not test
+request validation or controller behavior.
 
 ## Creating your own facade contract
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('blueprint_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('code')->unique();
             $table->json('name');
+            $table->boolean('is_complete')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
