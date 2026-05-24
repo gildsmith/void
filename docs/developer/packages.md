@@ -11,3 +11,7 @@ split to their own repositories.
 | `gildsmith/skeleton` | Starter template for new first-party packages. |
 | `gildsmith/support` | Shared support code for package implementations. |
 | `gildsmith/docs` | VitePress documentation site. |
+
+## Package Documentation
+
+- [Product](/packages/product/) documents the product catalog package.

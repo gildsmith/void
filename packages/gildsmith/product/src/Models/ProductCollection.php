@@ -10,6 +10,7 @@ use Gildsmith\Product\Database\Factories\ProductCollectionFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
+use Gildsmith\Support\Model\Concerns\HasValidationRules;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ class ProductCollection extends Model implements ProductCollectionInterface
     use HasFactory;
     use HasImmutableAttributes;
     use HasTranslations;
+    use HasValidationRules;
     use SoftDeletes;
 
     protected array $translatable = ['name'];
@@ -33,7 +35,6 @@ class ProductCollection extends Model implements ProductCollectionInterface
     protected $fillable = ['code', 'name', 'type'];
 
     public array $rules = [
-        'code' => ValidationRules::CODE,
         'type' => ValidationRules::CODE,
     ];
 

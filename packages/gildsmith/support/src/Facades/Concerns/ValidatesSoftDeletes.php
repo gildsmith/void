@@ -1,8 +1,10 @@
 <?php
 
-namespace Gildsmith\Support\Traits;
+declare(strict_types=1);
 
-use Gildsmith\Product\Exceptions\MissingSoftDeletesException;
+namespace Gildsmith\Support\Facades\Concerns;
+
+use Gildsmith\Support\Exceptions\MissingSoftDeletesException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

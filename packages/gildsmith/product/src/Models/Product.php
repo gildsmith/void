@@ -12,7 +12,7 @@ use Gildsmith\Product\Database\Factories\ProductFactory;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
-use Gildsmith\Support\Utils\ValidationRules;
+use Gildsmith\Support\Model\Concerns\HasValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +27,7 @@ class Product extends Model implements ProductInterface
     use HasFactory;
     use HasImmutableAttributes;
     use HasTranslations;
+    use HasValidationRules;
     use SoftDeletes;
 
     protected array $translatable = ['name'];
@@ -37,10 +38,6 @@ class Product extends Model implements ProductInterface
 
     protected $casts = [
         'is_complete' => 'bool',
-    ];
-
-    public array $rules = [
-        'code' => ValidationRules::CODE,
     ];
 
     protected static function newFactory(): ProductFactory

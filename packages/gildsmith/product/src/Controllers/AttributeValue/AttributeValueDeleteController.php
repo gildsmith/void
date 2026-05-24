@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gildsmith\Product\Controllers\AttributeValue;
 
+use Gildsmith\Product\Requests\AttributeValue\AttributeValueDeleteRequest;
 use Gildsmith\Support\Facades\Attribute;
 use Gildsmith\Support\Facades\AttributeValue;
 use Illuminate\Http\Response;
@@ -11,7 +12,7 @@ use Illuminate\Routing\Controller;
 
 class AttributeValueDeleteController extends Controller
 {
-    public function __invoke(string $attribute, string $value): bool
+    public function __invoke(AttributeValueDeleteRequest $request, string $attribute, string $value): bool
     {
         $attributeModel = Attribute::find($attribute);
         $valueModel = AttributeValue::find($value, true);

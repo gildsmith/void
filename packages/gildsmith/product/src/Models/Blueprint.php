@@ -12,7 +12,7 @@ use Gildsmith\Product\Models\Pivots\AttributeBlueprint;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
-use Gildsmith\Support\Utils\ValidationRules;
+use Gildsmith\Support\Model\Concerns\HasValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -27,6 +27,7 @@ class Blueprint extends Model implements BlueprintInterface
     use HasFactory;
     use HasImmutableAttributes;
     use HasTranslations;
+    use HasValidationRules;
     use SoftDeletes;
 
     public $timestamps = false;
@@ -36,10 +37,6 @@ class Blueprint extends Model implements BlueprintInterface
     protected array $immutable = ['code'];
 
     protected $fillable = ['code', 'name'];
-
-    public array $rules = [
-        'code' => ValidationRules::CODE,
-    ];
 
     protected static function newFactory(): BlueprintFactory
     {
@@ -60,6 +57,8 @@ class Blueprint extends Model implements BlueprintInterface
 
     public function allows(string ...$properties): bool
     {
+        $properties = array_values(array_unique($properties));
+
         if ($properties === []) {
             return true;
         }
@@ -71,6 +70,8 @@ class Blueprint extends Model implements BlueprintInterface
 
     public function requires(string ...$properties): bool
     {
+        $properties = array_values(array_unique($properties));
+
         if ($properties === []) {
             return true;
         }

@@ -24,9 +24,18 @@ export default defineConfig({
                 ],
             },
             {
-                text: 'Reference',
+                text: 'Packages',
+                collapsed: true,
                 items: [
-                    { text: 'Packages', link: '/packages' },
+                    { text: 'Overview', link: '/packages' },
+                    {
+                        text: 'Product',
+                        collapsed: true,
+                        items: [
+                            { text: 'Overview', link: '/packages/product/' },
+                            { text: 'API Reference', link: '/packages/product/api-reference' },
+                        ],
+                    },
                 ],
             },
         ],

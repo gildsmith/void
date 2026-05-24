@@ -117,3 +117,21 @@ it('cascades bulk detached blueprint attributes from related products', function
 
     expect($product->attributeValues()->count())->toBe(0);
 });
+
+it('allows duplicate attribute codes when the unique attribute is attached', function () {
+    $blueprint = Blueprint::factory()->create();
+    $attribute = Attribute::factory()->create(['code' => 'colour']);
+
+    $blueprint->attributes()->attach($attribute->id);
+
+    expect($blueprint->allows('colour', 'colour'))->toBeTrue();
+});
+
+it('requires duplicate attribute codes when the unique attribute is required', function () {
+    $blueprint = Blueprint::factory()->create();
+    $attribute = Attribute::factory()->create(['code' => 'colour']);
+
+    $blueprint->attributes()->attach($attribute->id, ['required' => true]);
+
+    expect($blueprint->requires('colour', 'colour'))->toBeTrue();
+});

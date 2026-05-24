@@ -12,7 +12,7 @@ use Gildsmith\Product\Models\Pivots\AttributeBlueprint;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
-use Gildsmith\Support\Utils\ValidationRules;
+use Gildsmith\Support\Model\Concerns\HasValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -27,6 +27,7 @@ class Attribute extends Model implements AttributeInterface
     use HasFactory;
     use HasImmutableAttributes;
     use HasTranslations;
+    use HasValidationRules;
     use SoftDeletes;
 
     public array $translatable = ['name'];
@@ -36,10 +37,6 @@ class Attribute extends Model implements AttributeInterface
     protected $fillable = ['code', 'name'];
 
     public $timestamps = false;
-
-    public array $rules = [
-        'code' => ValidationRules::CODE,
-    ];
 
     public function blueprints(): BelongsToMany
     {
