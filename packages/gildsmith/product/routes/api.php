@@ -89,14 +89,15 @@ Route::post('/blueprints', BlueprintCreateController::class)->can(Ability::Creat
 Route::get('/blueprints/trashed', BlueprintTrashedController::class)->can(Ability::ViewTrashed->value, BlueprintInterface::class);
 Route::post('/blueprints/{code}/trash', BlueprintTrashController::class)->can(Ability::Trash->value, BlueprintInterface::class);
 Route::post('/blueprints/{code}/restore', BlueprintRestoreController::class)->can(Ability::Restore->value, BlueprintInterface::class);
-Route::get('/blueprints/{code}/attributes', BlueprintAttributeIndexController::class)->can(Ability::View->value, BlueprintInterface::class);
-Route::post('/blueprints/{code}/attributes/{attribute}', BlueprintAttributeAttachController::class)->can(Ability::Update->value, BlueprintInterface::class);
-Route::patch('/blueprints/{code}/attributes/{attribute}', BlueprintAttributeUpdateController::class)->can(Ability::Update->value, BlueprintInterface::class);
-Route::delete('/blueprints/{code}/attributes/{attribute}', BlueprintAttributeDetachController::class)->can(Ability::Update->value, BlueprintInterface::class);
 Route::get('/blueprints/{code}', BlueprintFindController::class)->can(Ability::View->value, BlueprintInterface::class);
 Route::put('/blueprints/{code}', BlueprintUpdateController::class)->can(Ability::Update->value, BlueprintInterface::class);
 Route::patch('/blueprints/{code}', BlueprintUpdateController::class)->can(Ability::Update->value, BlueprintInterface::class);
 Route::delete('/blueprints/{code}', BlueprintDeleteController::class)->can(Ability::Delete->value, BlueprintInterface::class);
+
+Route::get('/blueprints/{code}/attributes', BlueprintAttributeIndexController::class)->can(Ability::View->value, BlueprintInterface::class);
+Route::post('/blueprints/{code}/attributes/{attribute}', BlueprintAttributeAttachController::class)->can(Ability::Update->value, BlueprintInterface::class);
+Route::patch('/blueprints/{code}/attributes/{attribute}', BlueprintAttributeUpdateController::class)->can(Ability::Update->value, BlueprintInterface::class);
+Route::delete('/blueprints/{code}/attributes/{attribute}', BlueprintAttributeDetachController::class)->can(Ability::Update->value, BlueprintInterface::class);
 
 Route::get('/collections', ProductCollectionIndexController::class)->can(Ability::ViewAny->value, ProductCollectionInterface::class);
 Route::post('/collections', ProductCollectionCreateController::class)->can(Ability::Create->value, ProductCollectionInterface::class);
