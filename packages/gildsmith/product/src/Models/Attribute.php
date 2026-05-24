@@ -42,6 +42,7 @@ class Attribute extends Model implements AttributeInterface
     {
         return $this->belongsToMany(BlueprintInterface::class)
             ->using(AttributeBlueprint::class)
+            ->as('blueprintAttribute')
             ->withPivot('required');
     }
 

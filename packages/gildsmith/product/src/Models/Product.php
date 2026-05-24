@@ -65,11 +65,6 @@ class Product extends Model implements ProductInterface
         return $this->belongsToMany(AttributeValueInterface::class);
     }
 
-    public function isComplete(): bool
-    {
-        return $this->is_complete;
-    }
-
     public function markComplete(): bool
     {
         return $this->forceFill(['is_complete' => true])->saveQuietly();
@@ -82,25 +77,18 @@ class Product extends Model implements ProductInterface
 
     public function recalculateCompleteness(): bool
     {
-        $blueprint = $this->blueprint()->first();
+        $requiredAttributeIds = $this->blueprint()
+            ->first()
+            ?->attributes()
+            ->wherePivot('required', true)
+            ->pluck('attributes.id')
+            ->all() ?? [];
 
-        $requiredAttributeIds = $blueprint === null
-            ? []
-            : $blueprint->attributes()
-                ->wherePivot('required', true)
-                ->pluck('attributes.id')
-                ->all();
-
-        $isComplete = true;
-
-        if ($requiredAttributeIds !== []) {
-            $assignedRequiredAttributes = $this->attributeValues()
+        $isComplete = $requiredAttributeIds === []
+            || $this->attributeValues()
                 ->whereIn('attribute_values.attribute_id', $requiredAttributeIds)
                 ->distinct()
-                ->count('attribute_values.attribute_id');
-
-            $isComplete = $assignedRequiredAttributes === count($requiredAttributeIds);
-        }
+                ->count('attribute_values.attribute_id') === count($requiredAttributeIds);
 
         $this->forceFill(['is_complete' => $isComplete])->saveQuietly();
 

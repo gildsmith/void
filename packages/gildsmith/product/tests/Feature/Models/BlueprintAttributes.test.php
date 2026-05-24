@@ -7,6 +7,7 @@ use Gildsmith\Product\Models\AttributeValue;
 use Gildsmith\Product\Models\Blueprint;
 use Gildsmith\Product\Models\Pivots\AttributeBlueprint;
 use Gildsmith\Product\Models\Product;
+use Illuminate\Database\QueryException;
 
 covers(AttributeBlueprint::class);
 
@@ -15,11 +16,11 @@ it('marks existing blueprint products incomplete when a required attribute is at
     $product = Product::factory()->for($blueprint)->create();
     $attribute = Attribute::factory()->create();
 
-    expect($product->refresh()->isComplete())->toBeTrue();
+    expect($product->refresh()->is_complete)->toBeTrue();
 
     $blueprint->attributes()->attach($attribute->id, ['required' => true]);
 
-    expect($product->refresh()->isComplete())->toBeFalse();
+    expect($product->refresh()->is_complete)->toBeFalse();
 });
 
 it('does not mark existing blueprint products incomplete when an optional attribute is attached', function () {
@@ -29,7 +30,17 @@ it('does not mark existing blueprint products incomplete when an optional attrib
 
     $blueprint->attributes()->attach($attribute->id);
 
-    expect($product->refresh()->isComplete())->toBeTrue();
+    expect($product->refresh()->is_complete)->toBeTrue();
+});
+
+it('does not allow the same attribute to be attached to a blueprint twice', function () {
+    $blueprint = Blueprint::factory()->create();
+    $attribute = Attribute::factory()->create();
+
+    $blueprint->attributes()->attach($attribute->id);
+
+    expect(fn () => $blueprint->attributes()->attach($attribute->id))
+        ->toThrow(QueryException::class);
 });
 
 it('marks existing blueprint products incomplete when an existing attribute becomes required', function () {
@@ -38,11 +49,11 @@ it('marks existing blueprint products incomplete when an existing attribute beco
     $attribute = Attribute::factory()->create();
 
     $blueprint->attributes()->attach($attribute->id, ['required' => false]);
-    expect($product->refresh()->isComplete())->toBeTrue();
+    expect($product->refresh()->is_complete)->toBeTrue();
 
     $blueprint->attributes()->updateExistingPivot($attribute->id, ['required' => true]);
 
-    expect($product->refresh()->isComplete())->toBeFalse();
+    expect($product->refresh()->is_complete)->toBeFalse();
 });
 
 it('recalculates product completeness from required blueprint attributes', function () {
@@ -53,24 +64,24 @@ it('recalculates product completeness from required blueprint attributes', funct
 
     $blueprint->attributes()->attach($attribute->id, ['required' => true]);
 
-    expect($product->refresh()->isComplete())->toBeFalse();
+    expect($product->refresh()->is_complete)->toBeFalse();
 
     $product->attributeValues()->attach($value->id);
 
     expect($product->recalculateCompleteness())->toBeTrue()
-        ->and($product->refresh()->isComplete())->toBeTrue();
+        ->and($product->refresh()->is_complete)->toBeTrue();
 });
 
 it('can mark product completeness directly when the state is already known', function () {
     $product = Product::factory()->create();
 
-    expect($product->refresh()->isComplete())->toBeTrue();
+    expect($product->refresh()->is_complete)->toBeTrue();
 
     expect($product->markIncomplete())->toBeTrue()
-        ->and($product->refresh()->isComplete())->toBeFalse();
+        ->and($product->refresh()->is_complete)->toBeFalse();
 
     expect($product->markComplete())->toBeTrue()
-        ->and($product->refresh()->isComplete())->toBeTrue();
+        ->and($product->refresh()->is_complete)->toBeTrue();
 });
 
 it('marks new products incomplete when their blueprint already requires missing attributes', function () {
@@ -81,7 +92,7 @@ it('marks new products incomplete when their blueprint already requires missing 
 
     $product = Product::factory()->for($blueprint)->create();
 
-    expect($product->refresh()->isComplete())->toBeFalse();
+    expect($product->refresh()->is_complete)->toBeFalse();
 });
 
 it('cascades detached blueprint attributes from related products', function () {

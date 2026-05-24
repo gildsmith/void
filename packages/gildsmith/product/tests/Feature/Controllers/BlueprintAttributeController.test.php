@@ -49,7 +49,7 @@ it('attaches blueprint attributes through the api', function () {
         ]);
 
     expect($blueprint->attributes()->where('code', $attribute->code)->exists())->toBeTrue()
-        ->and($product->refresh()->isComplete())->toBeFalse();
+        ->and($product->refresh()->is_complete)->toBeFalse();
 });
 
 it('updates blueprint attribute pivot data through the api', function () {
@@ -67,8 +67,8 @@ it('updates blueprint attribute pivot data through the api', function () {
             'required' => true,
         ]);
 
-    expect($blueprint->attributes()->where('code', $attribute->code)->first()->pivot->required)->toBeTrue()
-        ->and($product->refresh()->isComplete())->toBeFalse();
+    expect($blueprint->attributes()->where('code', $attribute->code)->first()->blueprintAttribute->required)->toBeTrue()
+        ->and($product->refresh()->is_complete)->toBeFalse();
 });
 
 it('detaches blueprint attributes through the api and cascades product values', function () {

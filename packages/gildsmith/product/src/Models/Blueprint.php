@@ -47,6 +47,7 @@ class Blueprint extends Model implements BlueprintInterface
     {
         return $this->belongsToMany(AttributeInterface::class)
             ->using(AttributeBlueprint::class)
+            ->as('blueprintAttribute')
             ->withPivot('required');
     }
 
