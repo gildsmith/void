@@ -11,6 +11,7 @@ use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Model\Concerns\HasValidationRules;
+use Gildsmith\Support\Model\Contracts\HasValidationRulesInterface;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class ProductCollection extends Model implements ProductCollectionInterface
+class ProductCollection extends Model implements HasValidationRulesInterface, ProductCollectionInterface
 {
     use HasAbstractRelationships;
     use HasCode;

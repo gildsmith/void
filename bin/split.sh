@@ -20,6 +20,7 @@ git pull origin $CURRENT_BRANCH
 
 # packages
 remote anvil git@github.com:gildsmith/anvil.git
+remote auth git@github.com:gildsmith/auth.git
 remote contract git@github.com:gildsmith/contract.git
 remote product git@github.com:gildsmith/product.git
 remote skeleton git@github.com:gildsmith/skeleton.git
@@ -27,6 +28,7 @@ remote support git@github.com:gildsmith/support.git
 remote testing git@github.com:gildsmith/testing.git
 
 split 'packages/gildsmith/anvil' anvil
+split 'packages/gildsmith/auth' auth
 split 'packages/gildsmith/contract' contract
 split 'packages/gildsmith/product' product
 split 'packages/gildsmith/skeleton' skeleton

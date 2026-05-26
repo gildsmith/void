@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gildsmith\Support\Model\Concerns;
 
+use Gildsmith\Support\Model\Contracts\HasValidationRulesInterface;
 use Gildsmith\Support\Utils\ValidationRules;
 use Illuminate\Database\Eloquent\Attributes\Boot;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ use LogicException;
  * @mixin Model
  *
  * @phpstan-require-extends Model
+ * @phpstan-require-implements HasValidationRulesInterface
  */
 trait HasValidationRules
 {

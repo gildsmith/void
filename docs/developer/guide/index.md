@@ -20,6 +20,8 @@ first-party packages in `packages/gildsmith/*`.
 
 - [Getting Started](/guide/getting-started) explains how to install the monorepo
   and run the local Laravel application.
+- [Installation](/guide/installation) explains package installation cautions,
+  including `gildsmith/auth` ownership of the `users` table.
 - [Creating Packages](/guide/creating-packages) shows the current options for
   starting a new Gildsmith package.
 - [Resource Architecture](/guide/resource-architecture) explains the code,

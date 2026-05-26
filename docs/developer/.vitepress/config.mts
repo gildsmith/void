@@ -17,6 +17,7 @@ export default defineConfig({
                 items: [
                     { text: 'Introduction', link: '/guide/' },
                     { text: 'Getting Started', link: '/guide/getting-started' },
+                    { text: 'Installation', link: '/guide/installation' },
                     { text: 'Creating Packages', link: '/guide/creating-packages' },
                     { text: 'Resource Architecture', link: '/guide/resource-architecture' },
                     { text: 'Core Packages', link: '/guide/core-packages' },

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Gildsmith\Support\Requests\Concerns;
 
-use Gildsmith\Support\Model\Concerns\HasValidationRules;
+use Gildsmith\Support\Model\Contracts\HasValidationRulesInterface;
+use Illuminate\Database\Eloquent\Model;
 use LogicException;
 
 trait ValidatesResourceRequest
@@ -14,7 +15,10 @@ trait ValidatesResourceRequest
         return true;
     }
 
-    protected function resolveValidationModel(): object
+    /**
+     * @throws LogicException
+     */
+    protected function resolveValidationModel(): Model&HasValidationRulesInterface
     {
         $model = $this->validationModel ?? null;
 
@@ -27,11 +31,19 @@ trait ValidatesResourceRequest
 
         $model = resolve($model);
 
-        if (! in_array(HasValidationRules::class, class_uses_recursive($model), true)) {
+        if (! $model instanceof Model) {
             throw new LogicException(sprintf(
-                'The model [%s] must use the [%s] trait.',
+                'The validation model [%s] must extend [%s].',
                 get_debug_type($model),
-                HasValidationRules::class,
+                Model::class,
+            ));
+        }
+
+        if (! $model instanceof HasValidationRulesInterface) {
+            throw new LogicException(sprintf(
+                'The validation model [%s] must implement [%s].',
+                get_debug_type($model),
+                HasValidationRulesInterface::class,
             ));
         }
 
