@@ -11,5 +11,8 @@ use Gildsmith\Contract\Models\HasCodeInterface;
  */
 interface UserInterface extends HasCodeInterface
 {
-    //
+    /**
+     * Determine whether this user currently has employee access.
+     */
+    public function hasEmployeeAccess(): bool;
 }

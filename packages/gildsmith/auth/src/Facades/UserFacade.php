@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Gildsmith\Auth\Facades;
 
 use Gildsmith\Contract\Facades\Auth\UserFacadeInterface;
+use Gildsmith\Contract\User\CustomerInterface;
+use Gildsmith\Contract\User\EmployeeInterface;
 use Gildsmith\Contract\User\UserInterface;
 use Gildsmith\Support\Exceptions\MissingSoftDeletesException;
 use Gildsmith\Support\Facades\Concerns\ValidatesSoftDeletes;
@@ -12,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -60,6 +63,24 @@ class UserFacade implements UserFacadeInterface
     }
 
     /**
+     * @throws ValidationException
+     */
+    public function register(array $data): Model&UserInterface
+    {
+        return DB::transaction(function () use ($data): Model&UserInterface {
+            $user = $this->create($data);
+
+            /** @var Builder $builder */
+            $builder = resolve(CustomerInterface::class);
+            $builder->create([
+                'user_id' => $user->getKey(),
+            ]);
+
+            return $user;
+        });
+    }
+
+    /**
      * @throws MissingSoftDeletesException
      * @throws ValidationException
      */
@@ -74,6 +95,52 @@ class UserFacade implements UserFacadeInterface
         $user->forceFill(['last_login_at' => now()])->save();
 
         return $user;
+    }
+
+    /**
+     * @throws MissingSoftDeletesException
+     */
+    public function grantEmployeeAccess(Model&UserInterface $user): Model&EmployeeInterface
+    {
+        /** @var Builder&SoftDeletes $builder */
+        $builder = resolve(EmployeeInterface::class);
+
+        /** @var (Model&EmployeeInterface&SoftDeletes)|null $employee */
+        $employee = $this->ensureSoftDeletes($builder)
+            ->withTrashed()
+            ->where('user_id', $user->getKey())
+            ->first();
+
+        if ($employee === null) {
+            return $builder->create([
+                'user_id' => $user->getKey(),
+            ]);
+        }
+
+        $this->ensureSoftDeletes($employee)->restore();
+        $employee->refresh();
+
+        return $employee;
+    }
+
+    /**
+     * @throws MissingSoftDeletesException
+     */
+    public function revokeEmployeeAccess(Model&UserInterface $user): bool
+    {
+        /** @var Builder&SoftDeletes $builder */
+        $builder = resolve(EmployeeInterface::class);
+
+        /** @var (Model&EmployeeInterface)|null $employee */
+        $employee = $builder
+            ->where('user_id', $user->getKey())
+            ->first();
+
+        if ($employee === null) {
+            return false;
+        }
+
+        return $this->ensureSoftDeletes($employee)->delete();
     }
 
     public function logout(Model&UserInterface $user, string $token): bool

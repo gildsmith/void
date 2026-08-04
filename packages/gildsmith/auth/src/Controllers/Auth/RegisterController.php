@@ -22,7 +22,7 @@ class RegisterController extends Controller
     public function __invoke(RegisterRequest $request, UserFacadeInterface $users): JsonResponse
     {
         /** @var User $user */
-        $user = $users->create($request->validated());
+        $user = $users->register($request->validated());
 
         return new TokenResource($user, $users->issueToken($user))
             ->response()

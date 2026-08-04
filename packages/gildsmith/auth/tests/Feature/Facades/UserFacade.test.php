@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Gildsmith\Auth\Facades\UserFacade;
+use Gildsmith\Auth\Models\Customer;
+use Gildsmith\Auth\Models\Employee;
 use Gildsmith\Auth\Models\User;
 use Gildsmith\Contract\Facades\Auth\UserFacadeInterface;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +27,18 @@ it('creates and finds users by email', function () {
     expect($facade->find('person@example.com')?->is($user))->toBeTrue();
 });
 
+it('registers users with customer actors', function () {
+    $facade = resolve(UserFacadeInterface::class);
+
+    $user = $facade->register([
+        'email' => 'customer@example.com',
+        'password' => 'password',
+    ]);
+
+    expect($user)->toBeInstanceOf(User::class);
+    expect($user->customer)->toBeInstanceOf(Customer::class);
+});
+
 it('logs users in and updates last login timestamp', function () {
     $facade = resolve(UserFacadeInterface::class);
     $user = User::factory()->create([
@@ -38,6 +52,29 @@ it('logs users in and updates last login timestamp', function () {
     expect($loggedIn?->last_login_at)->not->toBeNull();
     expect($facade->login('person@example.com', 'wrong-password'))->toBeNull();
     expect($facade->login('missing@example.com', 'password'))->toBeNull();
+});
+
+it('grants and revokes employee access', function () {
+    $facade = resolve(UserFacadeInterface::class);
+    $user = User::factory()->create();
+
+    $employee = $facade->grantEmployeeAccess($user);
+
+    expect($employee)->toBeInstanceOf(Employee::class);
+    expect($user->refresh()->hasEmployeeAccess())->toBeTrue();
+    expect($facade->grantEmployeeAccess($user)->is($employee))->toBeTrue();
+    expect(Employee::query()->where('user_id', $user->id)->count())->toBe(1);
+
+    expect($facade->revokeEmployeeAccess($user))->toBeTrue();
+    expect($user->refresh()->hasEmployeeAccess())->toBeFalse();
+    expect(Employee::withTrashed()->where('user_id', $user->id)->count())->toBe(1);
+
+    $restored = $facade->grantEmployeeAccess($user);
+
+    expect($restored->is($employee))->toBeTrue();
+    expect($restored->trashed())->toBeFalse();
+    expect($user->refresh()->hasEmployeeAccess())->toBeTrue();
+    expect($facade->revokeEmployeeAccess(User::factory()->create()))->toBeFalse();
 });
 
 it('issues and revokes sanctum tokens', function () {

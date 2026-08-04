@@ -60,6 +60,11 @@ class User extends Authenticatable implements HasValidationRulesInterface, UserI
         'remember_token',
     ];
 
+    protected $with = [
+        'customer',
+        'employee',
+    ];
+
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
@@ -78,6 +83,15 @@ class User extends Authenticatable implements HasValidationRulesInterface, UserI
     public function getCode(): string
     {
         return (string) $this->email;
+    }
+
+    public function hasEmployeeAccess(): bool
+    {
+        if ($this->relationLoaded('employee')) {
+            return $this->employee !== null;
+        }
+
+        return $this->employee()->exists();
     }
 
     /**

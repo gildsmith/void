@@ -40,6 +40,24 @@ it('belongs customer and employee profiles to their user', function () {
     expect($employee->user->is($user))->toBeTrue();
 });
 
+it('eager loads customer and employee profiles with users', function () {
+    $user = User::factory()->create();
+    Customer::factory()->for($user)->create();
+    Employee::factory()->for($user)->create();
+
+    $found = User::query()->findOrFail($user->id);
+
+    expect($found->relationLoaded('customer'))->toBeTrue();
+    expect($found->relationLoaded('employee'))->toBeTrue();
+    expect($found->customer)->toBeInstanceOf(Customer::class);
+    expect($found->employee)->toBeInstanceOf(Employee::class);
+    expect($found->hasEmployeeAccess())->toBeTrue();
+
+    $found->employee->delete();
+
+    expect(User::query()->findOrFail($user->id)->hasEmployeeAccess())->toBeFalse();
+});
+
 it('hashes user passwords', function () {
     $user = User::factory()->create([
         'password' => 'secret',

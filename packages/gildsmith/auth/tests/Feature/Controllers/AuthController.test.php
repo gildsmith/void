@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Gildsmith\Auth\Models\Customer;
+use Gildsmith\Auth\Models\Employee;
 use Gildsmith\Auth\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +29,7 @@ it('registers a user and returns a bearer token', function () {
 
     $user = User::query()->where('email', 'customer@example.com')->firstOrFail();
 
+    expect($user->customer)->not->toBeNull();
     expect(Hash::check('password', $user->password))->toBeTrue();
 
     expect(DB::table('personal_access_tokens')->where([
@@ -85,6 +88,8 @@ it('returns the authenticated user', function () {
     $user = User::factory()->create([
         'email' => 'person@example.com',
     ]);
+    $customer = Customer::factory()->for($user)->create();
+    $employee = Employee::factory()->for($user)->create();
     $token = $user->createToken('api')->plainTextToken;
 
     $this->withToken($token)
@@ -92,11 +97,25 @@ it('returns the authenticated user', function () {
         ->assertOk()
         ->assertJsonPath('id', $user->id)
         ->assertJsonPath('email', 'person@example.com')
+        ->assertJsonPath('customer.id', $customer->id)
+        ->assertJsonPath('employee.id', $employee->id)
         ->assertJsonStructure([
             'id',
             'email',
             'email_verified_at',
             'last_login_at',
+            'customer' => [
+                'id',
+                'created_at',
+                'updated_at',
+                'deleted_at',
+            ],
+            'employee' => [
+                'id',
+                'created_at',
+                'updated_at',
+                'deleted_at',
+            ],
             'created_at',
             'updated_at',
             'deleted_at',
