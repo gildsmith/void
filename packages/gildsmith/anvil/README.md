@@ -19,11 +19,22 @@ composer require --dev gildsmith/anvil
 
 All Anvil commands must be namespaced with the `anvil:` prefix.
 
-For example, a command named `composer` should be executed as:
+### Create Package
+
+Create a new package scaffold from Anvil blueprint packages:
 
 ```bash
-php artisan anvil:composer
+php artisan anvil:create-package
 ```
+
+Anvil will ask for the vendor name, package name, and author name. The vendor
+prompt defaults to `gildsmith`.
+
+Blueprints live in `blueprints/packages`. Each directory is an atomic piece of a
+package scaffold, such as `scaffolding`, `tests`, `pint`, or `github`. Anvil first
+copies each blueprint package as-is, then renders only files ending in
+`.blueprint` and removes the suffix. Blueprint variables use public camelCase names such as `{{ packageTitle }}`. Files ending in `.procedure` are reserved
+for future procedural setup and are removed for now.
 
 When adding new commands, keep them focused on making day-to-day development in
 this repository easier.

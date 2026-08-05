@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00afa45d66691aa0fee20e25168d01ad",
+    "content-hash": "6fb888e1c150b588f9e63f43a36f272d",
     "packages": [
         {
             "name": "brick/math",
@@ -580,16 +580,97 @@
             "time": "2023-10-12T05:21:21+00:00"
         },
         {
+            "name": "gildsmith/anvil",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/gildsmith/anvil",
+                "reference": "edf0b0c1a2a0eeb9269a9baef7290622e1794cce"
+            },
+            "require": {
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "illuminate/support": "^12",
+                "laravel/pint": "^1",
+                "orchestra/testbench": "*",
+                "pestphp/pest": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Gildsmith\\Anvil\\Providers\\AppServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gildsmith\\Anvil\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@clear",
+                    "@prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "serve": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@build",
+                    "@php vendor/bin/testbench serve --ansi"
+                ],
+                "lint": [
+                    "@php vendor/bin/pint --ansi",
+                    "@php vendor/bin/phpstan analyse --verbose --ansi"
+                ],
+                "test": [
+                    "@clear",
+                    "@php vendor/bin/pest"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mateusz Chmielewski",
+                    "email": "hello@itsmattch.com"
+                }
+            ],
+            "description": "Development-environment tooling for Gildsmith packages.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "gildsmith/contract",
             "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "packages/gildsmith/contract",
-                "reference": "03b41a3ad8023ab06d10097684a92998ed4a128e"
+                "reference": "a4d05541e262e8115cb660aa268e81009f099464"
+            },
+            "require": {
+                "php": "^8.4"
             },
             "require-dev": {
                 "illuminate/support": "^12",
-                "laravel/pint": "^1"
+                "laravel/pint": "^1",
+                "pestphp/pest": "^3"
             },
             "type": "library",
             "autoload": {
@@ -616,16 +697,18 @@
             "dist": {
                 "type": "path",
                 "url": "packages/gildsmith/product",
-                "reference": "6ec0c1468c5c28820e5154c703ba1cbf5d275ac7"
+                "reference": "2cf7c49eb320f1a58fe5e38d9389f64a7ea17140"
             },
             "require": {
                 "gildsmith/contract": "dev-master",
                 "gildsmith/support": "dev-master",
                 "illuminate/database": "^12",
                 "illuminate/support": "^12",
+                "php": "^8.4",
                 "spatie/laravel-translatable": "^6"
             },
             "require-dev": {
+                "gildsmith/testing": "dev-master",
                 "laravel/pint": "^1",
                 "orchestra/testbench": "^10",
                 "pestphp/pest": "^3",
@@ -702,12 +785,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/gildsmith/support",
-                "reference": "80a67705c5e4084c4bd2c369ba42b3ab3d276c61"
+                "reference": "70dc47c4f36f7953d57fa26f18f8a0f35db5e221"
             },
             "require": {
                 "gildsmith/contract": "dev-master",
                 "illuminate/database": "^12",
-                "illuminate/support": "^12"
+                "illuminate/support": "^12",
+                "php": "^8.4"
             },
             "require-dev": {
                 "laravel/pint": "^1",
@@ -8664,6 +8748,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "gildsmith/anvil": 20,
         "gildsmith/product": 20
     },
     "prefer-stable": true,

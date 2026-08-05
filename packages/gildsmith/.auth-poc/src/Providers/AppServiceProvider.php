@@ -22,12 +22,15 @@ use Gildsmith\Contract\Product\ProductInterface;
 use Gildsmith\Contract\User\CustomerInterface;
 use Gildsmith\Contract\User\EmployeeInterface;
 use Gildsmith\Contract\User\UserInterface;
+use Gildsmith\Support\Providers\Concerns\BuildsPackagePaths;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\SanctumServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    use BuildsPackagePaths;
+
     public function register(): void
     {
         $this->app->register(SanctumServiceProvider::class);
@@ -50,13 +53,5 @@ final class AppServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom($this->packagePath('database/migrations'));
         $this->loadMigrationsFrom($this->packagePath('vendor/laravel/sanctum/database/migrations'));
         $this->loadRoutesFrom($this->packagePath('routes/api.php'));
-    }
-
-    /**
-     * Helper function to build paths from the package root.
-     */
-    private function packagePath(string $path): string
-    {
-        return dirname(__DIR__, 2).'/'.$path;
     }
 }

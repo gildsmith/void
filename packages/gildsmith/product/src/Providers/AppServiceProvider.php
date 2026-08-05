@@ -24,10 +24,13 @@ use Gildsmith\Product\Models\AttributeValue;
 use Gildsmith\Product\Models\Blueprint;
 use Gildsmith\Product\Models\Product;
 use Gildsmith\Product\Models\ProductCollection;
+use Gildsmith\Support\Providers\Concerns\BuildsPackagePaths;
 use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    use BuildsPackagePaths;
+
     public function register(): void
     {
         // Facades
@@ -49,13 +52,5 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom($this->packagePath('database/migrations'));
         $this->loadRoutesFrom($this->packagePath('routes/api.php'));
-    }
-
-    /**
-     * Helper function to build paths from the package root.
-     */
-    private function packagePath(string $path): string
-    {
-        return dirname(__DIR__, 2).'/'.$path;
     }
 }

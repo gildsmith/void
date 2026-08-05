@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Gildsmith\Skeleton\Providers;
 
+use Gildsmith\Support\Providers\Concerns\BuildsPackagePaths;
 use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    use BuildsPackagePaths;
+
     public function register(): void
     {
         //
@@ -17,13 +20,5 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom($this->packagePath('database/migrations'));
         $this->loadRoutesFrom($this->packagePath('routes/api.php'));
-    }
-
-    /**
-     * Helper function to build paths from the package root.
-     */
-    private function packagePath(string $path): string
-    {
-        return dirname(__DIR__, 2).'/'.$path;
     }
 }

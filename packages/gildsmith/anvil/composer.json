@@ -1,10 +1,16 @@
 {
     "name": "gildsmith/anvil",
+    "description": "Development-environment tooling for Gildsmith packages.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Gildsmith\\Anvil\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "authors": [

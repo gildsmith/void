@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Gildsmith\Anvil\Providers;
 
+use Gildsmith\Anvil\Commands\CreatePackageCommand;
 use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    private static array $commands = [
+        CreatePackageCommand::class,
+    ];
+
     public function register(): void
     {
         //
@@ -15,14 +20,8 @@ final class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
-    }
-
-    /**
-     * Helper function to build paths from the package root.
-     */
-    private function packagePath(string $path): string
-    {
-        return dirname(__DIR__, 2).'/'.$path;
+        if ($this->app->runningInConsole()) {
+            $this->commands(self::$commands);
+        }
     }
 }
