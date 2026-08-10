@@ -24,12 +24,11 @@
     ],
     "require-dev": {
         "laravel/pint": "^1",
-        "pestphp/pest": "^3",
-        "pestphp/pest-plugin-watch": "^3",
-        "pestphp/pest-plugin-type-coverage": "^3",
-        "pestphp/pest-plugin-stressless": "^3",
+        "pestphp/pest": "^4",
+        "pestphp/pest-plugin-type-coverage": "^4",
+        "pestphp/pest-plugin-stressless": "^4",
         "phpstan/phpstan": "^2",
-        "orchestra/testbench": "^10",
+        "orchestra/testbench": "^11",
         "gildsmith/testing": "dev-master"
     },
     "require": {

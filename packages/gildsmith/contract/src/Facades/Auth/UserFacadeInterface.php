@@ -10,7 +10,6 @@ use Gildsmith\Contract\User\UserInterface;
 use Gildsmith\Support\Exceptions\MissingSoftDeletesException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
-use LogicException;
 
 /**
  * Facade for managing authenticated users.
@@ -20,7 +19,7 @@ use LogicException;
 interface UserFacadeInterface extends TrashableFacadeInterface
 {
     /**
-     * Register a storefront user and create the matching customer actor.
+     * Register a storefront user and create the matching customer profile.
      *
      * @throws ValidationException
      */
@@ -44,23 +43,4 @@ interface UserFacadeInterface extends TrashableFacadeInterface
      * @throws MissingSoftDeletesException
      */
     public function revokeEmployeeAccess(Model&UserInterface $user): bool;
-
-    /**
-     * Issue a bearer token for the given user.
-     *
-     * @throws LogicException
-     */
-    public function issueToken(Model&UserInterface $user): string;
-
-    /**
-     * Revoke one bearer token for the given user.
-     */
-    public function logout(Model&UserInterface $user, string $token): bool;
-
-    /**
-     * Revoke every bearer token for the given user.
-     *
-     * @throws LogicException
-     */
-    public function logoutEverywhere(Model&UserInterface $user): bool;
 }

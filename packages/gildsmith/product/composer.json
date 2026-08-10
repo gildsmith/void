@@ -24,20 +24,19 @@
     ],
     "require-dev": {
         "laravel/pint": "^1",
-        "pestphp/pest": "^3",
-        "pestphp/pest-plugin-watch": "^3",
-        "pestphp/pest-plugin-type-coverage": "^3",
-        "pestphp/pest-plugin-stressless": "^3",
-        "orchestra/testbench": "^10",
+        "pestphp/pest": "^4",
+        "pestphp/pest-plugin-type-coverage": "^4",
+        "pestphp/pest-plugin-stressless": "^4",
+        "orchestra/testbench": "^11",
         "gildsmith/testing": "dev-master"
     },
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "gildsmith/contract": "dev-master",
         "gildsmith/support": "dev-master",
         "spatie/laravel-translatable": "^6",
-        "illuminate/support": "^12",
-        "illuminate/database": "^12"
+        "illuminate/support": "^13",
+        "illuminate/database": "^13"
     },
     "config": {
         "allow-plugins": {
@@ -72,5 +71,10 @@
                 "Gildsmith\\Product\\Providers\\AppServiceProvider"
             ]
         }
-    }
-}
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*/"
+        }
+    ]}

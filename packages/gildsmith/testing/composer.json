@@ -16,10 +16,10 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "gildsmith/contract": "dev-master",
-        "illuminate/support": "^12",
-        "illuminate/database": "^12"
+        "illuminate/support": "^13",
+        "illuminate/database": "^13"
     },
     "require-dev": {
         "laravel/pint": "^1",
@@ -30,5 +30,10 @@
             "@php vendor/bin/pint --ansi",
             "@php vendor/bin/phpstan analyse --verbose --ansi"
         ]
-    }
-}
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*/"
+        }
+    ]}
