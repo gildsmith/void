@@ -1,12 +1,12 @@
 {
-    "name": "gildsmith/permissions",
-    "description": "Permissions package for Gildsmith.",
+    "name": "gildsmith/permission",
+    "description": "Permission package for Gildsmith.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Gildsmith\\Permissions\\": "src/",
-            "Gildsmith\\Permissions\\Database\\Factories\\": "database/factories/"
+            "Gildsmith\\Permission\\": "src/",
+            "Gildsmith\\Permission\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
@@ -69,7 +69,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Gildsmith\\Permissions\\Providers\\AppServiceProvider"
+                "Gildsmith\\Permission\\Providers\\AppServiceProvider"
             ]
         }
     },

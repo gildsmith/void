@@ -1,5 +1,5 @@
 providers:
-  - Gildsmith\Permissions\Providers\AppServiceProvider
+  - Gildsmith\Auth\Providers\AppServiceProvider
 
 migrations:
   - database/migrations

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gildsmith\Permissions\Providers;
+namespace Gildsmith\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
