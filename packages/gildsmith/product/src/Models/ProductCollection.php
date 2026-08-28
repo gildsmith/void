@@ -29,15 +29,12 @@ class ProductCollection extends Model implements HasValidationRulesInterface, Pr
     use HasValidationRules;
     use SoftDeletes;
 
-    protected array $translatable = ['name'];
-
-    protected array $immutable = ['code'];
-
-    protected $fillable = ['code', 'name', 'type'];
-
     public array $rules = [
         'type' => ValidationRules::CODE,
     ];
+    protected array $translatable = ['name'];
+    protected array $immutable = ['code'];
+    protected $fillable = ['code', 'name', 'type'];
 
     protected static function newFactory(): ProductCollectionFactory
     {

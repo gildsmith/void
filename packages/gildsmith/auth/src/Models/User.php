@@ -10,12 +10,14 @@ use Gildsmith\Contract\User\CustomerInterface;
 use Gildsmith\Contract\User\EmployeeInterface;
 use Gildsmith\Contract\User\UserInterface;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
+use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
 use Gildsmith\Support\Model\Concerns\HasValidationRules;
 use Gildsmith\Support\Model\Contracts\HasValidationRulesInterface;
 use Illuminate\Auth\Authenticatable as AuthenticatableConcern;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -29,6 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property CarbonInterface|null $created_at
  * @property CarbonInterface|null $updated_at
  * @property CarbonInterface|null $deleted_at
+ * @property-read string $code
  * @property-read Customer|null $customer
  * @property-read Employee|null $employee
  */
@@ -37,28 +40,29 @@ class User extends Model implements AuthenticatableContract, HasValidationRulesI
     use AuthenticatableConcern;
     use HasAbstractRelationships;
     use HasFactory;
+    use HasImmutableAttributes;
     use HasValidationRules;
     use SoftDeletes;
 
+    public string $code {
+        get => (string) $this->email;
+    }
     protected array $rules = [
         'email' => ['string', 'email'],
         'password' => ['string', 'min:8'],
     ];
-
     protected array $requiredForCreate = ['email', 'password'];
-
+    protected array $immutable = ['email'];
     protected $fillable = [
         'email',
         'password',
         'email_verified_at',
         'last_login_at',
     ];
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
     protected $with = [
         'customer',
         'employee',
@@ -79,9 +83,9 @@ class User extends Model implements AuthenticatableContract, HasValidationRulesI
         return $this->hasOne(EmployeeInterface::class);
     }
 
-    public function getCode(): string
+    public function sessions(): HasMany
     {
-        return (string) $this->email;
+        return $this->hasMany(Session::class);
     }
 
     public function hasEmployeeAccess(): bool

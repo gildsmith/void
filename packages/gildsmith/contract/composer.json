@@ -14,10 +14,11 @@
         }
     ],
     "require": {
-        "php": "^8.5"
+        "php": "^8.5",
+        "illuminate/support": "^13",
+        "illuminate/validation": "^13"
     },
     "require-dev": {
-        "illuminate/support": "^13",
         "laravel/pint": "^1",
         "pestphp/pest": "^4"
     },
@@ -25,10 +26,5 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../*/*/"
-        }
-    ]}
+    }
+}

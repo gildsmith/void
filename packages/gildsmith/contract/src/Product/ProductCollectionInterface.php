@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Gildsmith\Contract\Product;
 
-use Gildsmith\Contract\Models\HasCodeInterface;
+use DateTimeInterface;
+use Gildsmith\Contract\Shared\HasCodeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -18,18 +19,15 @@ use Illuminate\Support\Collection;
  * @property-read int $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
- * @property-read string $code
- *  Unique business identifier.
- *  Immutable and used for lookups.
  * @property string $name
- *                        Human-readable name.
+ *  Human-readable name.
  * @property string $type
- *                        Describes the purpose or usage of this collection.
- * @property-read \DateTimeInterface|null $created_at
+ *  Describes the purpose or usage of this collection.
+ * @property-read DateTimeInterface|null $created_at
  *  Timestamp when the collection was created.
- * @property-read \DateTimeInterface|null $updated_at
+ * @property-read DateTimeInterface|null $updated_at
  *  Timestamp when the collection was last updated.
- * @property-read \DateTimeInterface|null $deleted_at
+ * @property-read DateTimeInterface|null $deleted_at
  *  Timestamp when the collection was soft deleted, or null if active.
  * @property-read Collection<int, ProductInterface> $products
  *  Products included in this collection.

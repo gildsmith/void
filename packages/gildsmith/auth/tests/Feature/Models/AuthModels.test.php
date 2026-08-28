@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use Gildsmith\Auth\Models\Customer;
 use Gildsmith\Auth\Models\Employee;
+use Gildsmith\Auth\Models\Session;
 use Gildsmith\Auth\Models\User;
+use Gildsmith\Contract\Auth\SessionInterface;
 use Gildsmith\Contract\User\CustomerInterface;
 use Gildsmith\Contract\User\EmployeeInterface;
 use Gildsmith\Contract\User\UserInterface;
@@ -15,6 +17,7 @@ it('binds auth contracts to auth models', function () {
     expect(resolve(UserInterface::class))->toBeInstanceOf(User::class);
     expect(resolve(CustomerInterface::class))->toBeInstanceOf(Customer::class);
     expect(resolve(EmployeeInterface::class))->toBeInstanceOf(Employee::class);
+    expect(resolve(SessionInterface::class))->toBeInstanceOf(Session::class);
 });
 
 it('allows one user to have customer and employee profiles', function () {
@@ -37,6 +40,25 @@ it('belongs customer and employee profiles to their user', function () {
     expect($employee->user)->toBeInstanceOf(User::class);
     expect($customer->user->is($user))->toBeTrue();
     expect($employee->user->is($user))->toBeTrue();
+});
+
+it('has many API sessions', function () {
+    $user = User::factory()->create();
+
+    $first = Session::query()->create([
+        'user_id' => $user->id,
+        'token_hash' => hash('sha256', 'first'),
+        'expires_at' => now()->addHour(),
+    ]);
+    $second = Session::query()->create([
+        'user_id' => $user->id,
+        'token_hash' => hash('sha256', 'second'),
+        'expires_at' => now()->addHour(),
+    ]);
+
+    expect($user->sessions)->toHaveCount(2);
+    expect($first->user->is($user))->toBeTrue();
+    expect($second->user->is($user))->toBeTrue();
 });
 
 it('eager loads customer and employee profiles with users', function () {
@@ -67,10 +89,31 @@ it('hashes user passwords', function () {
 });
 
 it('validates users when they are created', function () {
-    expect(fn () => User::create([
+    expect(fn() => User::create([
         'email' => 'invalid-email',
         'password' => 'password',
     ]))->toThrow(ValidationException::class);
+});
+
+it('knows whether API sessions are active', function () {
+    $active = Session::query()->create([
+        'user_id' => User::factory()->create()->id,
+        'token_hash' => hash('sha256', 'active'),
+        'expires_at' => now()->addHour(),
+    ]);
+    $expired = Session::query()->create([
+        'user_id' => User::factory()->create()->id,
+        'token_hash' => hash('sha256', 'expired'),
+        'expires_at' => now()->subHour(),
+    ]);
+
+    expect($active->isActive())->toBeTrue();
+    expect($expired->isActive())->toBeFalse();
+    expect(Session::query()->active()->pluck('id')->all())->toBe([$active->id]);
+
+    $active->revoke();
+
+    expect(Session::query()->find($active->id))->toBeNull();
 });
 
 it('soft deletes auth models', function () {

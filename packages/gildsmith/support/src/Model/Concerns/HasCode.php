@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Gildsmith\Support\Model\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @phpstan-require-extends Model
+ */
 trait HasCode
 {
-    public function getCode(): string
-    {
-        return (string) $this->getAttribute('code');
+    public string $code {
+        get => (string) $this->getAttribute('code');
     }
 }

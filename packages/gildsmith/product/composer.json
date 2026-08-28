@@ -75,6 +75,10 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../../*/*/"
+            "url": "../../*/*/",
+            "options": {
+                "symlink": true
+            }
         }
-    ]}
+    ]
+}

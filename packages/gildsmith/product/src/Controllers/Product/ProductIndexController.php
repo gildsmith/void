@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace Gildsmith\Product\Controllers\Product;
 
 use Gildsmith\Product\Requests\Product\ProductIndexRequest;
+use Gildsmith\Product\Resources\ProductResource;
 use Gildsmith\Support\Facades\Product;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Collection;
 
 class ProductIndexController extends Controller
 {
-    public function __invoke(ProductIndexRequest $request): Collection
+    public function __invoke(ProductIndexRequest $request): AnonymousResourceCollection
     {
-        return Product::all();
+        // TODO: Add pagination.
+        $products = Product::all();
+
+        return ProductResource::collection($products);
     }
 }

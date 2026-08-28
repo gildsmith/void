@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Gildsmith\Contract\Routing\ResourceAbility;
+use Gildsmith\Contract\Shared\Routing\ResourceAbility;
 use Illuminate\Routing\Route as LaravelRoute;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +28,7 @@ function gildsmithTrashableResourceRouteAuthorizationContract(string $parameter 
 }
 
 /**
- * @param class-string $contract
+ * @param  class-string  $contract
  */
 function itExposesTrashableResourceRoutes(
     string $uri,
@@ -63,7 +63,7 @@ function gildsmithTestingFindRoute(string $method, string $uri): ?LaravelRoute
     $uri = trim($uri, '/');
 
     foreach (Route::getRoutes() as $route) {
-        if (!in_array($method, $route->methods(), true)) {
+        if (! in_array($method, $route->methods(), true)) {
             continue;
         }
 

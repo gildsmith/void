@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gildsmith\Contract\User;
 
-use Gildsmith\Contract\Models\HasCodeInterface;
+use Gildsmith\Contract\Shared\HasCodeInterface;
 
 /**
  * This interface represents registered and authenticated user.

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Gildsmith\Contract\Product;
 
-use Gildsmith\Contract\Models\HasCodeInterface;
+use DateTimeInterface;
+use Gildsmith\Contract\Shared\HasCodeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -14,14 +15,11 @@ use Illuminate\Support\Collection;
  * @property-read int $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
- * @property-read string $code
- *  Unique business identifier.
- *  Immutable and used for lookups.
  * @property string $name
- *                        Human-readable name.
+ *  Human-readable name.
  * @property int $attribute_id
- *                             Foreign key for the parent attribute.
- * @property-read \DateTimeInterface|null $deleted_at
+ *  Foreign key for the parent attribute.
+ * @property-read DateTimeInterface|null $deleted_at
  *  Timestamp when the attribute value was soft deleted, or null if active.
  * @property-read AttributeInterface $attribute
  *  The parent Attribute this value belongs to.

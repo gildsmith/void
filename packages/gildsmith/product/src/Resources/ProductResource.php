@@ -18,8 +18,6 @@ class ProductResource extends JsonResource
         return [
             'code' => $this->code,
             'name' => $this->getTranslations('name'),
-            'is_complete' => $this->is_complete,
-            'blueprint' => BlueprintResource::make($this->whenLoaded('blueprint')),
             'attribute_values' => AttributeValueResource::collection($this->whenLoaded('attributeValues')),
             'collections' => ProductCollectionResource::collection($this->whenLoaded('collections')),
             'created_at' => $this->created_at?->getTimestamp(),

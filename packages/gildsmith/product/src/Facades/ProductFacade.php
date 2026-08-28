@@ -4,117 +4,122 @@ declare(strict_types=1);
 
 namespace Gildsmith\Product\Facades;
 
-use Gildsmith\Contract\Facades\Product\ProductFacadeInterface;
+use Gildsmith\Contract\Product\Facades\ProductFacadeInterface;
 use Gildsmith\Contract\Product\ProductInterface;
-use Gildsmith\Support\Exceptions\MissingSoftDeletesException;
-use Gildsmith\Support\Facades\Concerns\ValidatesSoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Gildsmith\Product\Models\Product;
+use Gildsmith\Support\Exceptions\ImmutableAttributeException;
 use Illuminate\Support\Collection;
 
 class ProductFacade implements ProductFacadeInterface
 {
-    use ValidatesSoftDeletes;
-
     /**
-     * @return Collection<int, Model&ProductInterface>
+     * Return products, optionally including soft-deleted records.
      *
-     * @throws MissingSoftDeletesException
+     * @return Collection<int, ProductInterface>
      */
     public function all(bool $withTrashed = false): Collection
     {
-        /** @var Builder&SoftDeletes $builder */
-        $builder = resolve(ProductInterface::class);
+        $query = Product::query();
 
         return $withTrashed
-            ? $this->ensureSoftDeletes($builder)->withTrashed()->get()
-            : $builder->get();
-    }
-
-    public function create(array $data): Model&ProductInterface
-    {
-        /** @var Builder $builder */
-        $builder = resolve(ProductInterface::class);
-
-        return $builder->create($data);
+            ? $query->withTrashed()->get()
+            : $query->get();
     }
 
     /**
-     * @throws MissingSoftDeletesException
+     * Create a product from caller-supplied data.
+     */
+    public function create(array $data): ProductInterface
+    {
+        return Product::query()->create($data);
+    }
+
+    /**
+     * Return false when no product has the requested code.
      */
     public function delete(string $code, bool $force = false): bool
     {
-        $model = $this->find($code, $force);
+        $product = $this->findModel($code, $force);
 
-        if ($model == null) {
+        if ($product === null) {
             return false;
         }
 
         return $force
-            ? $this->ensureSoftDeletes($model)->forceDelete()
-            : $model->delete();
+            ? $product->forceDelete()
+            : $product->delete();
     }
 
     /**
-     * @return (Model&ProductInterface&SoftDeletes)|null
-     *
-     * @throws MissingSoftDeletesException
+     * Return null when no product has the requested code.
      */
-    public function find(string $code, bool $withTrashed = false): (Model&ProductInterface)|null
+    public function find(string $code, bool $withTrashed = false): ?ProductInterface
     {
-        /** @var Builder&SoftDeletes $builder */
-        $builder = resolve(ProductInterface::class);
-
-        return $withTrashed
-            ? $this->ensureSoftDeletes($builder)->withTrashed()->where('code', $code)->first()
-            : $builder->where('code', $code)->first();
+        return $this->findModel($code, $withTrashed);
     }
 
     /**
-     * @throws MissingSoftDeletesException
+     * Return false when no product has the requested code.
      */
     public function restore(string $code): bool
     {
-        $model = $this->find($code, true);
+        $product = $this->findModel($code, true);
 
-        if ($model === null) {
+        if ($product === null) {
             return false;
         }
 
-        return $this->ensureSoftDeletes($model)->restore();
+        return $product->restore();
     }
 
     /**
-     * @return Collection<int, Model&ProductInterface>
+     * Return only soft-deleted products.
      *
-     * @throws MissingSoftDeletesException
+     * @return Collection<int, ProductInterface>
      */
     public function trashed(): Collection
     {
-        /** @var Builder&SoftDeletes $builder */
-        $builder = resolve(ProductInterface::class);
-
-        return $this->ensureSoftDeletes($builder)->onlyTrashed()->get();
+        return Product::query()->onlyTrashed()->get();
     }
 
     /**
-     * @throws MissingSoftDeletesException
+     * Return null when no product has the requested code.
      */
-    public function update(string $code, array $data): (Model&ProductInterface)|null
+    public function update(string $code, array $data): ?ProductInterface
     {
-        $model = $this->find($code, true);
-        $model?->update($data);
-        $model?->refresh();
+        $product = $this->findModel($code, true);
 
-        return $model;
+        if ($product === null) {
+            return null;
+        }
+
+        $product->update($data);
+
+        return $product->refresh();
     }
 
-    public function updateOrCreate(string $code, array $data): Model&ProductInterface
+    /**
+     * Update the identified product or create it when it does not exist.
+     *
+     * @throws ImmutableAttributeException when input attempts to replace the stable code
+     */
+    public function updateOrCreate(string $code, array $data): ProductInterface
     {
-        /** @var Builder $builder */
-        $builder = resolve(ProductInterface::class);
+        if (array_key_exists('code', $data) && $data['code'] !== $code) {
+            throw new ImmutableAttributeException(new Product(), 'code');
+        }
 
-        return $builder->updateOrCreate(['code' => $code], $data);
+        unset($data['code']);
+
+        return Product::query()->updateOrCreate(['code' => $code], $data);
+    }
+
+    private function findModel(string $code, bool $withTrashed = false): ?Product
+    {
+        $query = Product::query();
+
+        return $withTrashed
+            ? $query->withTrashed()->where('code', $code)->first()
+            : $query->where('code', $code)->first();
     }
 }

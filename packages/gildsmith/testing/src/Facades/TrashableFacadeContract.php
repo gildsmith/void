@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Gildsmith\Contract\Facades\TrashableFacadeInterface;
+use Gildsmith\Contract\Shared\Facades\TrashableFacadeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;

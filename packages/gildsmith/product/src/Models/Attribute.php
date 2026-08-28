@@ -6,9 +6,7 @@ namespace Gildsmith\Product\Models;
 
 use Gildsmith\Contract\Product\AttributeInterface;
 use Gildsmith\Contract\Product\AttributeValueInterface;
-use Gildsmith\Contract\Product\BlueprintInterface;
 use Gildsmith\Product\Database\Factories\AttributeFactory;
-use Gildsmith\Product\Models\Pivots\AttributeBlueprint;
 use Gildsmith\Support\Model\Concerns\HasAbstractRelationships;
 use Gildsmith\Support\Model\Concerns\HasCode;
 use Gildsmith\Support\Model\Concerns\HasImmutableAttributes;
@@ -16,7 +14,6 @@ use Gildsmith\Support\Model\Concerns\HasValidationRules;
 use Gildsmith\Support\Model\Contracts\HasValidationRulesInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
@@ -32,28 +29,17 @@ class Attribute extends Model implements AttributeInterface, HasValidationRulesI
     use SoftDeletes;
 
     public array $translatable = ['name'];
-
+    public $timestamps = false;
     protected array $immutable = ['code'];
-
     protected $fillable = ['code', 'name'];
 
-    public $timestamps = false;
-
-    public function blueprints(): BelongsToMany
+    protected static function newFactory(): AttributeFactory
     {
-        return $this->belongsToMany(BlueprintInterface::class)
-            ->using(AttributeBlueprint::class)
-            ->as('blueprintAttribute')
-            ->withPivot('required');
+        return AttributeFactory::new();
     }
 
     public function values(): HasMany
     {
         return $this->hasMany(AttributeValueInterface::class);
-    }
-
-    protected static function newFactory(): AttributeFactory
-    {
-        return AttributeFactory::new();
     }
 }

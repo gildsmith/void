@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Gildsmith\Contract\Product;
 
-use Gildsmith\Contract\Models\HasCodeInterface;
+use DateTimeInterface;
+use Gildsmith\Contract\Shared\HasCodeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -16,35 +17,22 @@ use Illuminate\Support\Collection;
  * rule of thumb is: if it would have a unique EAN, it probably makes sense
  * as a separate Product instance.
  *
- * Products are structured using Blueprints — predefined patterns that specify
- * which attributes are required for a given type. For example, a chair
- * might require dimensions and colour, while a car might require number of doors.
- *
  * @property-read int $id
  *  Surrogate primary key for database relations.
  *  Used internally for efficient joins and indexing.
- * @property-read string $code
- *  Unique business identifier.
- *  Immutable and used for lookups.
  * @property string $name
- *                        Human-readable name.
- * @property int $blueprint_id
- *                             Foreign key for the blueprint that defines the product structure.
- * @property bool $is_complete
- *                             Whether the product currently satisfies its required blueprint attributes.
- * @property-read BlueprintInterface $blueprint
- *  A blueprint that defines what attributes should the model have.
+ *  Human-readable name.
  * @property-read Collection<int, ProductCollectionInterface> $collections
  *  A list of all collections that the product is part of.
  * @property-read Collection<int, AttributeValueInterface> $attributeValues
  *  A collection of all attribute values assigned to this product. Since
  *  each value belongs to exactly one attribute, it shouldn't be difficult
  *  to get to an attribute.
- * @property-read \DateTimeInterface|null $created_at
+ * @property-read DateTimeInterface|null $created_at
  *  Timestamp when the product was created.
- * @property-read \DateTimeInterface|null $updated_at
+ * @property-read DateTimeInterface|null $updated_at
  *  Timestamp when the product was last updated.
- * @property-read \DateTimeInterface|null $deleted_at
+ * @property-read DateTimeInterface|null $deleted_at
  *  Timestamp when the product was soft deleted, or null if active.
  */
 interface ProductInterface extends HasCodeInterface {}

@@ -11,10 +11,8 @@ class ImmutableAttributeException extends LogicException
 {
     public function __construct(Model $model, string $attribute)
     {
-        parent::__construct(sprintf(
-            'Attribute [%s] is immutable on model [%s].',
-            $attribute,
-            $model::class,
-        ));
+        $modelClass = $model::class;
+
+        parent::__construct("Attribute [$attribute] is immutable on model [$modelClass].");
     }
 }

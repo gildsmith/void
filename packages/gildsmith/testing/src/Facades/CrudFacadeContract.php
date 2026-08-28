@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Gildsmith\Contract\Facades\CrudFacadeInterface;
-use Gildsmith\Contract\Models\HasCodeInterface;
+use Gildsmith\Contract\Shared\Facades\CrudFacadeInterface;
+use Gildsmith\Contract\Shared\HasCodeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -53,7 +53,7 @@ function itFulfillsCrudFacadeContract(
                 expect($record)->toBeInstanceOf(HasCodeInterface::class);
                 expect($record->getAttribute('code'))->toBeString();
                 expect($record->getAttribute('code'))->not->toBeEmpty();
-                expect($record->getCode())->toBe($record->getAttribute('code'));
+                expect($record->code)->toBe($record->getAttribute('code'));
             });
         });
 

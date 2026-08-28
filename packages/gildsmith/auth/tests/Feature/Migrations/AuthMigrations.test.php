@@ -10,6 +10,7 @@ it('creates auth and profile tables', function () {
     expect(Schema::hasTable('users'))->toBeTrue();
     expect(Schema::hasTable('customers'))->toBeTrue();
     expect(Schema::hasTable('employees'))->toBeTrue();
+    expect(Schema::hasTable('sessions'))->toBeTrue();
 
     foreach (['email', 'email_verified_at', 'password', 'remember_token', 'last_login_at', 'deleted_at', 'created_at', 'updated_at'] as $column) {
         expect(Schema::hasColumn('users', $column))->toBeTrue();
@@ -21,6 +22,14 @@ it('creates auth and profile tables', function () {
         expect(Schema::hasColumn($table, 'created_at'))->toBeTrue();
         expect(Schema::hasColumn($table, 'updated_at'))->toBeTrue();
     }
+
+    foreach (['user_id', 'name', 'token_hash', 'remember', 'last_used_at', 'expires_at', 'created_at', 'updated_at'] as $column) {
+        expect(Schema::hasColumn('sessions', $column))->toBeTrue();
+    }
+
+    expect(Schema::hasColumn('sessions', 'ip_address'))->toBeFalse();
+    expect(Schema::hasColumn('sessions', 'user_agent'))->toBeFalse();
+    expect(Schema::hasColumn('sessions', 'revoked_at'))->toBeFalse();
 });
 
 it('requires unique customer and employee profiles per user', function () {
@@ -43,28 +52,61 @@ it('requires unique customer and employee profiles per user', function () {
         'updated_at' => now(),
     ]);
 
-    expect(fn () => DB::table('customers')->insert([
+    expect(fn() => DB::table('customers')->insert([
         'user_id' => $userId,
         'created_at' => now(),
         'updated_at' => now(),
     ]))->toThrow(QueryException::class);
 
-    expect(fn () => DB::table('employees')->insert([
+    expect(fn() => DB::table('employees')->insert([
         'user_id' => $userId,
         'created_at' => now(),
         'updated_at' => now(),
     ]))->toThrow(QueryException::class);
 });
 
-it('requires customer and employee users to exist', function () {
-    expect(fn () => DB::table('customers')->insert([
+it('requires customer, employee, and session users to exist', function () {
+    expect(fn() => DB::table('customers')->insert([
         'user_id' => 999,
         'created_at' => now(),
         'updated_at' => now(),
     ]))->toThrow(QueryException::class);
 
-    expect(fn () => DB::table('employees')->insert([
+    expect(fn() => DB::table('employees')->insert([
         'user_id' => 999,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]))->toThrow(QueryException::class);
+
+    expect(fn() => DB::table('sessions')->insert([
+        'user_id' => 999,
+        'token_hash' => hash('sha256', 'token'),
+        'expires_at' => now()->addHour(),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]))->toThrow(QueryException::class);
+});
+
+it('requires unique session token hashes', function () {
+    $userId = DB::table('users')->insertGetId([
+        'email' => 'person@example.com',
+        'password' => 'password',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    DB::table('sessions')->insert([
+        'user_id' => $userId,
+        'token_hash' => hash('sha256', 'token'),
+        'expires_at' => now()->addHour(),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    expect(fn() => DB::table('sessions')->insert([
+        'user_id' => $userId,
+        'token_hash' => hash('sha256', 'token'),
+        'expires_at' => now()->addHour(),
         'created_at' => now(),
         'updated_at' => now(),
     ]))->toThrow(QueryException::class);

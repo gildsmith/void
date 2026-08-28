@@ -15,6 +15,7 @@ use LogicException;
  * @mixin Model
  *
  * @phpstan-require-extends Model
+ *
  * @phpstan-require-implements HasValidationRulesInterface
  */
 trait HasValidationRules
@@ -238,10 +239,9 @@ trait HasValidationRules
                 continue;
             }
 
-            throw new LogicException(sprintf(
-                'Validation rules for [%s] should not contain [required]. Use $requiredForCreate or $requiredForUpdate instead.',
-                $attribute,
-            ));
+            throw new LogicException(
+                "Validation rules for [$attribute] should not contain [required]. Use \$requiredForCreate or \$requiredForUpdate instead.",
+            );
         }
     }
 }

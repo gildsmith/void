@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gildsmith\Support\Facades;
 
-use Gildsmith\Contract\Facades\Product\ProductFacadeInterface;
+use Gildsmith\Contract\Product\Facades\ProductFacadeInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**

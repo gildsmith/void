@@ -23,28 +23,31 @@ trait ValidatesResourceRequest
         $model = $this->validationModel ?? null;
 
         if ($model === null) {
-            throw new LogicException(sprintf(
-                'The request [%s] must define a validation model interface.',
-                static::class,
-            ));
+            $requestClass = static::class;
+
+            throw new LogicException(
+                "The request [$requestClass] must define a validation model interface.",
+            );
         }
 
         $model = resolve($model);
 
         if (! $model instanceof Model) {
-            throw new LogicException(sprintf(
-                'The validation model [%s] must extend [%s].',
-                get_debug_type($model),
-                Model::class,
-            ));
+            $modelType = get_debug_type($model);
+            $modelClass = Model::class;
+
+            throw new LogicException(
+                "The validation model [$modelType] must extend [$modelClass].",
+            );
         }
 
         if (! $model instanceof HasValidationRulesInterface) {
-            throw new LogicException(sprintf(
-                'The validation model [%s] must implement [%s].',
-                get_debug_type($model),
-                HasValidationRulesInterface::class,
-            ));
+            $modelType = get_debug_type($model);
+            $interfaceClass = HasValidationRulesInterface::class;
+
+            throw new LogicException(
+                "The validation model [$modelType] must implement [$interfaceClass].",
+            );
         }
 
         return $model;
