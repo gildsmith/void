@@ -24,7 +24,7 @@ final class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Facades
-        $this->app->bind(ProductFacadeInterface::class, fn() => new ProductFacade());
+        $this->app->bind(ProductFacadeInterface::class, fn () => new ProductFacade);
 
         // Models
         $this->app->bind(AttributeValueInterface::class, AttributeValue::class);

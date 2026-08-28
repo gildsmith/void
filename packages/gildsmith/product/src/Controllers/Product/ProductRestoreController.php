@@ -16,7 +16,7 @@ class ProductRestoreController extends Controller
     {
         $restored = Product::restore($code);
 
-        if (!$restored) {
+        if (! $restored) {
             return response()->json(
                 ['message' => 'Product not found.'],
                 Response::HTTP_NOT_FOUND,

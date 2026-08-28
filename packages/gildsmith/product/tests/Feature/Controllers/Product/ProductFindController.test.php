@@ -20,7 +20,7 @@ describe('__invoke', function () {
         Product::swap($facade);
 
         $request = ProductFindRequest::create('/products/missing', 'GET');
-        $response = (new ProductFindController())($request, 'missing');
+        $response = (new ProductFindController)($request, 'missing');
 
         expect($response)->toBeInstanceOf(JsonResponse::class);
         expect($response->getStatusCode())->toBe(Response::HTTP_NOT_FOUND);

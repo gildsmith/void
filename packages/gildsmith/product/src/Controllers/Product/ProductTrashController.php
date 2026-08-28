@@ -16,7 +16,7 @@ class ProductTrashController extends Controller
     {
         $trashed = Product::delete($code);
 
-        if (!$trashed) {
+        if (! $trashed) {
             return response()->json(
                 ['message' => 'Product not found.'],
                 Response::HTTP_NOT_FOUND,

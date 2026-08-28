@@ -20,7 +20,7 @@ describe('__invoke', function () {
         Product::swap($facade);
 
         $request = ProductRestoreRequest::create('/products/missing/restore', 'POST');
-        $response = (new ProductRestoreController())($request, 'missing');
+        $response = (new ProductRestoreController)($request, 'missing');
 
         expect($response)->toBeInstanceOf(JsonResponse::class);
         expect($response->getStatusCode())->toBe(Response::HTTP_NOT_FOUND);

@@ -31,8 +31,11 @@ class AttributeValue extends Model implements AttributeValueInterface, HasValida
     use SoftDeletes;
 
     public array $translatable = ['name'];
+
     public $timestamps = false;
+
     protected array $immutable = ['code'];
+
     protected $fillable = ['code', 'name', 'attribute_id'];
 
     protected static function newFactory(): AttributeValueFactory

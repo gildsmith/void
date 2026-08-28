@@ -29,8 +29,11 @@ class Attribute extends Model implements AttributeInterface, HasValidationRulesI
     use SoftDeletes;
 
     public array $translatable = ['name'];
+
     public $timestamps = false;
+
     protected array $immutable = ['code'];
+
     protected $fillable = ['code', 'name'];
 
     protected static function newFactory(): AttributeFactory

@@ -106,7 +106,7 @@ class ProductFacade implements ProductFacadeInterface
     public function updateOrCreate(string $code, array $data): ProductInterface
     {
         if (array_key_exists('code', $data) && $data['code'] !== $code) {
-            throw new ImmutableAttributeException(new Product(), 'code');
+            throw new ImmutableAttributeException(new Product, 'code');
         }
 
         unset($data['code']);

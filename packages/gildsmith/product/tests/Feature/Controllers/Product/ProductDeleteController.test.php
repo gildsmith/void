@@ -20,7 +20,7 @@ describe('__invoke', function () {
         Product::swap($facade);
 
         $request = ProductDeleteRequest::create('/products/missing', 'DELETE');
-        $response = (new ProductDeleteController())($request, 'missing');
+        $response = new ProductDeleteController()($request, 'missing');
 
         expect($response)->toBeInstanceOf(JsonResponse::class);
         expect($response->getStatusCode())->toBe(Response::HTTP_NOT_FOUND);

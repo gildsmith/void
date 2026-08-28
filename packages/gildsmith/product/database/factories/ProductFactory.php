@@ -25,7 +25,7 @@ class ProductFactory extends Factory
 
     public function trashed(): self
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'deleted_at' => Carbon::now(),
         ]);
     }

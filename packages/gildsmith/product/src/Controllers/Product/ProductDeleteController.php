@@ -16,7 +16,7 @@ class ProductDeleteController extends Controller
     {
         $deleted = Product::delete($code, true);
 
-        if (!$deleted) {
+        if (! $deleted) {
             return response()->json(
                 ['message' => 'Product not found.'],
                 Response::HTTP_NOT_FOUND,
