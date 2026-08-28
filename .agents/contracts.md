@@ -44,21 +44,6 @@ Contracts live in `packages/gildsmith/contract/src`.
 - Declare every package used by a contract signature as a runtime dependency.
 - Do not depend on implementation packages that already depend on `contract`.
 
-## Facades
-
-- A domain may expose multiple facades. Each facade should own one cohesive
-  capability; there is no hard count limit.
-- Prefer another facade when one facade would need unrelated operations or
-  method prefixes to identify which resource it controls.
-- Facades are the only operational entry points into a module. The rest of the
-  application, including other modules, must not call module internals directly.
-- Keep facade methods and parameters minimal. Require only information callers
-  inherently know, such as a product ID.
-- Express intent while hiding endpoints, configuration, processing steps, and
-  implementation structure.
-- Do not add public operations, parameters, or caller coordination for
-  implementation convenience.
-
 ## Inputs
 
 - Prefer typed data contracts whose accepted shape is explicit.

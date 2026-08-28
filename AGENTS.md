@@ -2,11 +2,11 @@
 
 For work that changes code, follow these steps in order:
 
-1. Contracts — read `.agents/contracts.md`.
-2. Tests — read `.agents/tests.md`.
-3. Documentation — read `.agents/documentation.md`.
-4. Code — read `.agents/code.md`.
-5. Cleanup — read `.agents/cleanup.md`.
+1. Contracts - read `.agents/contracts.md`.
+2. Tests - read `.agents/tests.md`.
+3. Documentation - read `.agents/documentation.md`.
+4. Code - read `.agents/code.md`.
+5. Cleanup - read `.agents/cleanup.md`.
 
 Complete one step at a time and never mix steps. Continue automatically from one
 completed step to the next; do not stop for routine approval between steps. Stop
